@@ -1,0 +1,12 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>商品</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<button ion-item>xxx</button>
+		<button ion-item *ngFor="let i of dbProvider.items">{{i.name}}</button>
+	</ion-list>
+</ion-content>
