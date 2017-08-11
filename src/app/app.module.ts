@@ -20,7 +20,11 @@ import { ItemsPageModule } from '../pages/items/items.module';
 	imports: [
 		BrowserModule,
 		ItemsPageModule,
-		IonicModule.forRoot(MyApp),
+		IonicModule.forRoot(MyApp, {
+			backButtonText: '返回',
+			iconMode: 'ios',
+			pageTransition: 'ios',
+		}),
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
