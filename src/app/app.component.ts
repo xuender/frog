@@ -6,8 +6,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { ItemsPage } from '../pages/items/items';
-import { createConnection } from 'typeorm';
-import { Item } from '../entity/item';
 
 @Component({
 	templateUrl: 'app.html'
@@ -15,7 +13,7 @@ import { Item } from '../entity/item';
 export class MyApp {
 	@ViewChild(Nav) nav: Nav;
 
-	rootPage: any = HomePage;
+	rootPage: any = ItemsPage;
 
 	pages: Array<{ title: string, component: any }>;
 
@@ -37,24 +35,6 @@ export class MyApp {
 			// Here you can do any higher level native things you might need.
 			this.statusBar.styleDefault();
 			this.splashScreen.hide();
-			createConnection({
-				driver: {
-					type: "sqlite",
-					database: "db/MyAppDB.db"
-				},
-				entities: [
-					Item,
-				],
-				autoSchemaSync: true,
-			}).then(async connection => {
-				const item = new Item();
-				item.name = '测试商品1';
-				const itemRepository = connection.getRepository(Item);
-				await itemRepository.persist(item);
-				console.log("Item has been saved: ", item);
-				// this.items = await itemRepository.find();
-				console.log('find');
-			}).catch(error => console.log(error));
 		});
 	}
 

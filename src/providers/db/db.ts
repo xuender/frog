@@ -1,39 +1,39 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
-import { createConnection } from 'typeorm';
 import { Item } from '../../entity/item';
+import * as localforage from 'localforage';
+import { indexOf } from 'lodash';
 
 @Injectable()
 export class DbProvider {
 
 	public items: Item[] = [];
 	constructor() {
-		console.log('Hello DbProvider Provider');
-		createConnection({
-			driver: {
-				type: 'sqlite',
-				database: 'db/frog.db',
-			},
-			entities: [
-				Item,
-			],
-			logging: {
-				logFailedQueryError: true,
-				logQueries: true,
-				logSchemaCreation: true,
-				logOnlyFailedQueries: true,
-			},
-			autoSchemaSync: true,
-		}).then(async connection => {
-			const item = new Item();
-			item.name = '测试商品1';
-			const itemRepository = connection.getRepository(Item);
-			await itemRepository.persist(item);
-			console.log("Item has been saved: ", item);
-			// this.items = await itemRepository.find();
-			console.log('find');
-		}).catch(error => console.log("Error: ", error));
+		console.log('constructo DbProvider');
+		localforage.config({
+			// driver: localforage.WEBSQL,
+			driver: localforage.LOCALSTORAGE,
+			name: 'frog',
+			version: 1.0,
+			size: 4980736,
+			storeName: 'frog',
+			description: 'frog database'
+		});
+		localforage.keys().then((keys) => {
+			if (indexOf(keys, 'items') < 0) {
+				this.init();
+			} else {
+				this.load();
+			}
+		});
+	}
+	private init() {
+		this.items.push({ id: 1, name: '测试商品' });
+		localforage.setItem('items', this.items);
+	}
+	private load() {
+		localforage.getItem('items', (err, items: Item[]) => this.items = items);
 	}
 
 }
