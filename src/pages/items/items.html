@@ -1,11 +1,14 @@
 <ion-header>
 	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
 		<ion-title>商品</ion-title>
 	</ion-navbar>
 </ion-header>
 
 <ion-content padding>
-	<ion-searchbar (ionInput)="getItems($event)" cancelButtonText="取消" showCancelButton="true" placeholder="商品过滤"></ion-searchbar>
+	<ion-searchbar (ionInput)="getItems($event)" cancelButtonText="取消" showCancelButton="true" placeholder="商品名称过滤"></ion-searchbar>
 	<button *ngFor="let t of tags" (click)="toggle(t)" [color]="t.hide?'light':'primary'" small ion-button round>{{ t.name }}</button>
 	<ion-list>
 		<button ion-item *ngFor="let i of items">

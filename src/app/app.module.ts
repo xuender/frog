@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DbProvider } from '../providers/db/db';
 import { ItemsPageModule } from '../pages/items/items.module';
+import { TagsPageModule } from '../pages/tags/tags.module';
 
 @NgModule({
 	declarations: [
@@ -20,6 +21,7 @@ import { ItemsPageModule } from '../pages/items/items.module';
 	imports: [
 		BrowserModule,
 		ItemsPageModule,
+		TagsPageModule,
 		IonicModule.forRoot(MyApp, {
 			backButtonText: '返回',
 			iconMode: 'ios',

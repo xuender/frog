@@ -1,0 +1,20 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+			<ion-icon name="menu"></ion-icon>
+		</button>
+		<ion-title>标签</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<ion-item *ngFor="let t of tags">
+			{{ t.name }}
+			<ion-note item-end>
+				{{ t.note }}
+			</ion-note>
+			<ion-badge item-end>{{ t.count }}</ion-badge>
+		</ion-item>
+	</ion-list>
+</ion-content>

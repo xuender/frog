@@ -3,5 +3,7 @@ export class Tag {
 	id: number;
 	name: string;
 	order: number;
+	note?: string;
 	hide?: boolean;
+	count?: number;
 }

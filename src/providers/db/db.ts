@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
 import * as localforage from 'localforage';
-import { indexOf, forEach, isNumber, find } from 'lodash';
+import { indexOf, forEach, isNumber, find, sortBy } from 'lodash';
 
 import { Item } from '../../entity/item';
 import { Tag } from '../../entity/tag';
@@ -38,11 +38,13 @@ export class DbProvider {
 		const tag1 = {
 			id: this.getSeq(Tag.KEY),
 			name: '商品',
+			note: '主要销售的商品',
 			order: 10,
 		};
 		const tag2 = {
 			id: this.getSeq(Tag.KEY),
 			name: '耗材',
+			note: '销售需要的耗材',
 			order: 20,
 		};
 		this.tags.push(tag1, tag2);
@@ -52,6 +54,11 @@ export class DbProvider {
 			id: this.getSeq(Item.KEY),
 			name: '测试商品',
 			tags: [tag1, tag2],
+		});
+		this.items.push({
+			id: this.getSeq(Item.KEY),
+			name: '测试耗材',
+			tags: [tag2],
 		});
 		this.saveItems();
 	}
@@ -71,12 +78,15 @@ export class DbProvider {
 		forEach(items, (item: Item) => {
 			const tags: Tag[] = [];
 			forEach(item.tags, (t) => tags.push(isNumber(t) ? this.getTag(t) : t));
-			item.tags = tags;
+			item.tags = sortBy(tags, 'order');
 		});
 		return items;
 	}
 
-	private getTag(id: number): Tag {
+	public getTag(id: number | string): Tag {
+		if (!isNumber(id)) {
+			id = parseInt(id as string);
+		}
 		return find(this.tags, (tag) => tag.id === id);
 	}
 
