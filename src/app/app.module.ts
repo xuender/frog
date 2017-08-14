@@ -14,6 +14,7 @@ import { ItemsPage } from '../pages/items/items';
 import { CustomerPage } from '../pages/customer/customer';
 import { TagsPage } from '../pages/tags/tags';
 import { TagDetailPage } from '../pages/tag-detail/tag-detail';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { TagDetailPage } from '../pages/tag-detail/tag-detail';
 	],
 	imports: [
 		BrowserModule,
+		ComponentsModule,
 		IonicModule.forRoot(MyApp, {
 			backButtonText: '返回',
 			iconMode: 'ios',

@@ -5,5 +5,19 @@
 </ion-header>
 
 <ion-content padding>
-
+	<ion-grid>
+		<ion-row>
+			<ion-list col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4>
+				<ion-item>
+					<ion-label>日期</ion-label>
+					<ion-datetime displayFormat="YYYY-MM-DD" cancelText="取消" doneText="确定"></ion-datetime>
+				</ion-item>
+				<ion-item>
+					<ion-label>金额</ion-label>
+					<ion-input type="number" placeholder="实收金额"></ion-input>
+				</ion-item>
+			</ion-list>
+			<keypad col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8></keypad>
+		</ion-row>
+	</ion-grid>
 </ion-content>
