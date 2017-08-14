@@ -13,12 +13,14 @@ import { TagDetailPage } from '../tag-detail/tag-detail';
 })
 export class TagsPage {
 	public tags: Tag[];
+	public isReorder: boolean;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		public modalCtrl: ModalController,
-		public dbProvider: DbProvider
+		private modalCtrl: ModalController,
+		private dbProvider: DbProvider
 	) {
+		this.isReorder = false;
 		this.tags = this.dbProvider.tags;
 	}
 
@@ -40,7 +42,7 @@ export class TagsPage {
 
 	edit(tag: Tag) {
 		const tagModal = this.modalCtrl.create(TagDetailPage, {
-			tag: Object.assign({}, tag),
+			tag: tag,
 		});
 		tagModal.onDidDismiss((t) => {
 			if (t) {
@@ -70,5 +72,20 @@ export class TagsPage {
 			}
 		})
 		tagModal.present();
+	}
+
+	reorder() {
+		this.isReorder = true;
+	}
+
+	saveTags() {
+		this.isReorder = false;
+		this.dbProvider.saveTags();
+	}
+
+	reorderTags(indexes) {
+		const element = this.tags[indexes.from];
+		this.tags.splice(indexes.from, 1);
+		this.tags.splice(indexes.to, 0, element);
 	}
 }

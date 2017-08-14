@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
+import { Subject } from 'rxjs/Subject';
 
 import * as localforage from 'localforage';
 import { indexOf, forEach, isNumber, find, sortBy } from 'lodash';
@@ -10,10 +11,14 @@ import { Tag } from '../../entity/tag';
 const SEQ = 'seq';
 @Injectable()
 export class DbProvider {
+	private seq: any = {};
+	private itemsSubject = new Subject<Item[]>();
+	private tagsSubject = new Subject<Tag[]>();
+
 	public items: Item[] = [];
 	public tags: Tag[] = [];
-	private seq: any = {};
-
+	public itemsObservable = this.itemsSubject.asObservable();
+	public tagsObservable = this.tagsSubject.asObservable();
 	constructor() {
 		console.log('constructo DbProvider');
 		localforage.config({
@@ -65,7 +70,10 @@ export class DbProvider {
 
 	public saveTags() {
 		forEach(this.tags, (t: Tag, i: number) => t.order = i);
-		localforage.setItem(Tag.KEY, this.tags);
+		localforage.setItem(Tag.KEY, this.tags).then((tags) => {
+			this.tagsSubject.next(this.tags);
+			console.debug('saveTags', this.tags);
+		});
 	}
 
 	private saveItems() {
@@ -76,6 +84,7 @@ export class DbProvider {
 		})
 		localforage.setItem(Item.KEY, this.items).then((items) => {
 			Object.assign(this.items, this.linkItems(items));
+			this.itemsSubject.next(this.items);
 		});
 	}
 
@@ -108,9 +117,13 @@ export class DbProvider {
 
 	private load() {
 		localforage.getItem(SEQ, (err, seq: any) => Object.assign(this.seq, seq));
-		localforage.getItem(Tag.KEY, (err, tags: Tag[]) => Object.assign(this.tags, tags));
+		localforage.getItem(Tag.KEY, (err, tags: Tag[]) => {
+			Object.assign(this.tags, tags);
+			this.tagsSubject.next(this.tags);
+		});
 		localforage.getItem(Item.KEY, (err, items: Item[]) => {
 			Object.assign(this.items, this.linkItems(items));
+			this.itemsSubject.next(this.items);
 		});
 	}
 }

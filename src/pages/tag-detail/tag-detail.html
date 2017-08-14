@@ -15,8 +15,8 @@
 </ion-header>
 
 <ion-content padding>
-	<form *ngIf="form" [formGroup]="form" (ngSubmit)="done()">
-		<ion-list>
+	<ion-list>
+		<form *ngIf="form" [formGroup]="form" (ngSubmit)="done()">
 			<ion-item>
 				<ion-label color="primary">标签名称</ion-label>
 				<ion-input type="text" placeholder="标签名称" formControlName="name" required></ion-input>
@@ -25,6 +25,7 @@
 				<ion-label color="primary">标签说明</ion-label>
 				<ion-textarea placeholder="标签说明" formControlName="note"></ion-textarea>
 			</ion-item>
-		</ion-list>
-	</form>
+		</form>
+		<button *ngIf="!this.tag.count" (click)="del()" color="danger" ion-button full large>删除</button>
+	</ion-list>
 </ion-content>

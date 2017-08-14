@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { union, forEach, orderBy } from 'lodash';
 
 import { DbProvider } from '../../providers/db/db';
 import { Item } from '../../entity/item';
@@ -20,7 +21,22 @@ export class ItemsPage {
 		public dbProvider: DbProvider
 	) {
 		this.items = this.dbProvider.items;
-		this.tags = this.dbProvider.tags;
+		if (this.items.length > 0) {
+			this.findTags();
+		}
+		const stop = this.dbProvider.itemsObservable.subscribe((items: Item[]) => {
+			this.items = items;
+			this.findTags();
+			// stop.unsubscribe();
+		});
+		this.dbProvider.tagsObservable.subscribe((tags: Tag[]) => this.findTags());
+	}
+
+	private findTags() {
+		let tags = []
+		forEach(this.items, (item: Item) => tags = union(tags, item.tags));
+		this.tags = orderBy(tags, 'order');
+		console.debug('findtags sort', this.tags);
 	}
 
 	ionViewDidLoad() {

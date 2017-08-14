@@ -1,6 +1,14 @@
 <ion-header>
 	<ion-navbar>
 		<ion-title>标签</ion-title>
+		<ion-buttons start>
+			<button *ngIf="isReorder" ion-button (click)="saveTags()">
+				排序完毕
+			</button>
+			<button *ngIf="!isReorder" ion-button (click)="reorder()">
+				排序
+			</button>
+		</ion-buttons>
 		<ion-buttons end>
 			<button ion-button (click)="add()" strong>
 				新增
@@ -10,7 +18,7 @@
 </ion-header>
 
 <ion-content padding>
-	<ion-list>
+	<ion-list [reorder]="isReorder" (ionItemReorder)="reorderTags($event)">
 		<button (click)="edit(t)" ion-item *ngFor="let t of tags">
 			{{ t.name }}
 			<ion-note item-end>
