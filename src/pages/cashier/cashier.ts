@@ -1,25 +1,17 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the CashierPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
-  selector: 'page-cashier',
-  templateUrl: 'cashier.html',
+	selector: 'page-cashier',
+	templateUrl: 'cashier.html',
 })
 export class CashierPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	constructor(public navCtrl: NavController, public navParams: NavParams) {
+	}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CashierPage');
-  }
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad CashierPage');
+	}
 
 }

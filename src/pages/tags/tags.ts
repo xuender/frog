@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { forEach, countBy, mergeWith } from 'lodash';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { find, forEach, countBy, mergeWith } from 'lodash';
 
 import { DbProvider } from '../../providers/db/db';
 import { Tag } from '../../entity/tag';
 import { Item } from '../../entity/item';
+import { TagDetailPage } from '../tag-detail/tag-detail';
 
-@IonicPage()
 @Component({
 	selector: 'page-tags',
 	templateUrl: 'tags.html',
@@ -16,6 +16,7 @@ export class TagsPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
+		public modalCtrl: ModalController,
 		public dbProvider: DbProvider
 	) {
 		this.tags = this.dbProvider.tags;
@@ -35,5 +36,39 @@ export class TagsPage {
 			const tag = this.dbProvider.getTag(id);
 			if (tag) tag.count = count[id];
 		}
+	}
+
+	edit(tag: Tag) {
+		const tagModal = this.modalCtrl.create(TagDetailPage, {
+			tag: Object.assign({}, tag),
+		});
+		tagModal.onDidDismiss((t) => {
+			if (t) {
+				Object.assign(tag, t);
+				this.dbProvider.saveTags();
+			}
+		})
+		tagModal.present();
+	}
+
+	add() {
+		const tagModal = this.modalCtrl.create(TagDetailPage, {
+			tag: {
+				name: '新标签',
+				note: '',
+			},
+			add: true,
+		});
+		tagModal.onDidDismiss((tag: Tag) => {
+			if (tag) {
+				this.tags.push(Object.assign({
+					id: this.dbProvider.getSeq(Tag.KEY),
+					hide: false,
+					order: this.tags.length,
+				}, tag));
+				this.dbProvider.saveTags();
+			}
+		})
+		tagModal.present();
 	}
 }

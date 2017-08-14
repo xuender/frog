@@ -1,0 +1,30 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>标签{{ isEdit ? '编辑':'新建' }}</ion-title>
+		<ion-buttons start>
+			<button ion-button (click)="cancel()">
+				取消
+			</button>
+		</ion-buttons>
+		<ion-buttons end>
+			<button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
+				保存
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<form *ngIf="form" [formGroup]="form" (ngSubmit)="done()">
+		<ion-list>
+			<ion-item>
+				<ion-label color="primary">标签名称</ion-label>
+				<ion-input type="text" placeholder="标签名称" formControlName="name" required></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label color="primary">标签说明</ion-label>
+				<ion-textarea placeholder="标签说明" formControlName="note"></ion-textarea>
+			</ion-item>
+		</ion-list>
+	</form>
+</ion-content>

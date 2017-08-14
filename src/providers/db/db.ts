@@ -38,17 +38,17 @@ export class DbProvider {
 		const tag1 = {
 			id: this.getSeq(Tag.KEY),
 			name: '商品',
+			hide: false,
 			note: '主要销售的商品',
-			order: 10,
 		};
 		const tag2 = {
 			id: this.getSeq(Tag.KEY),
 			name: '耗材',
+			hide: false,
 			note: '销售需要的耗材',
-			order: 20,
 		};
 		this.tags.push(tag1, tag2);
-		localforage.setItem(Tag.KEY, this.tags);
+		this.saveTags();
 
 		this.items.push({
 			id: this.getSeq(Item.KEY),
@@ -61,6 +61,11 @@ export class DbProvider {
 			tags: [tag2],
 		});
 		this.saveItems();
+	}
+
+	public saveTags() {
+		forEach(this.tags, (t: Tag, i: number) => t.order = i);
+		localforage.setItem(Tag.KEY, this.tags);
 	}
 
 	private saveItems() {

@@ -3,33 +3,31 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DbProvider } from '../providers/db/db';
-import { ItemsPageModule } from '../pages/items/items.module';
-import { TagsPageModule } from '../pages/tags/tags.module';
-import { CashierPageModule } from '../pages/cashier/cashier.module';
-import { CustomerPageModule } from '../pages/customer/customer.module';
-import { SettingsPageModule } from '../pages/settings/settings.module';
+import { SettingsPage } from '../pages/settings/settings';
+import { CashierPage } from '../pages/cashier/cashier';
+import { ItemsPage } from '../pages/items/items';
+import { CustomerPage } from '../pages/customer/customer';
+import { TagsPage } from '../pages/tags/tags';
+import { TagDetailPage } from '../pages/tag-detail/tag-detail';
 
 @NgModule({
 	declarations: [
 		MyApp,
-		HomePage,
-		ListPage,
 		TabsPage,
+		CashierPage,
+		ItemsPage,
+		CustomerPage,
+		SettingsPage,
+		TagsPage,
+		TagDetailPage,
 	],
 	imports: [
 		BrowserModule,
-		TagsPageModule,
-		CashierPageModule,
-		ItemsPageModule,
-		CustomerPageModule,
-		SettingsPageModule,
 		IonicModule.forRoot(MyApp, {
 			backButtonText: '返回',
 			iconMode: 'ios',
@@ -40,9 +38,13 @@ import { SettingsPageModule } from '../pages/settings/settings.module';
 	bootstrap: [IonicApp],
 	entryComponents: [
 		MyApp,
-		HomePage,
-		ListPage,
-		TabsPage
+		TabsPage,
+		CashierPage,
+		ItemsPage,
+		CustomerPage,
+		SettingsPage,
+		TagsPage,
+		TagDetailPage,
 	],
 	providers: [
 		StatusBar,

@@ -1,25 +1,23 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the SettingsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import { TagsPage } from '../tags/tags';
 
-@IonicPage()
 @Component({
-  selector: 'page-settings',
-  templateUrl: 'settings.html',
+	selector: 'page-settings',
+	templateUrl: 'settings.html',
 })
 export class SettingsPage {
+	constructor(
+		public navCtrl: NavController,
+		public navParams: NavParams) {
+	}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad SettingsPage');
+	}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingsPage');
-  }
-
+	tags() {
+		this.navCtrl.push(TagsPage);
+	}
 }

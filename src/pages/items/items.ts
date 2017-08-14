@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { DbProvider } from '../../providers/db/db';
 import { Item } from '../../entity/item';
 import { Tag } from '../../entity/tag';
 
-@IonicPage()
 @Component({
 	selector: 'page-items',
 	templateUrl: 'items.html',
