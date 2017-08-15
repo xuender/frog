@@ -3,5 +3,6 @@ export class Item {
 	static KEY = 'items';
 	id: number;
 	name: string;
-	tags: Tag[] | number[];
+	tags: Array<Tag | number>;
+	price: number;
 }

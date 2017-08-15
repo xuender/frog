@@ -5,12 +5,5 @@
 </ion-header>
 
 <ion-content padding>
-	<ion-searchbar (ionInput)="getItems($event)" cancelButtonText="取消" showCancelButton="true" placeholder="商品名称过滤"></ion-searchbar>
-	<button *ngFor="let t of tags" (click)="toggle(t)" [color]="t.hide?'light':'primary'" small ion-button round>{{ t.name }}</button>
-	<ion-list>
-		<button ion-item *ngFor="let i of items">
-			{{i.name}}
-			<ion-badge *ngFor="let t of i.tags" [color]="t.hide?'light':'primary'" item-end>{{ t.name }}</ion-badge>
-		</button>
-	</ion-list>
+	<filter-items (select)="open($event)"></filter-items>
 </ion-content>

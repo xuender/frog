@@ -58,11 +58,13 @@ export class DbProvider {
 		this.items.push({
 			id: this.getSeq(Item.KEY),
 			name: '测试商品',
+			price: 3,
 			tags: [tag1, tag2],
 		});
 		this.items.push({
 			id: this.getSeq(Item.KEY),
 			name: '测试耗材',
+			price: 1.5,
 			tags: [tag2],
 		});
 		this.saveItems();

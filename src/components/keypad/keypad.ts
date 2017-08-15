@@ -6,10 +6,8 @@ import { Component } from '@angular/core';
 })
 export class KeypadComponent {
 	public num: number;
-
 	constructor() {
 		console.log('Hello KeypadComponent Component');
 		this.num = 0;
 	}
-
 }

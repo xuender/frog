@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
-import { find, forEach, countBy, mergeWith } from 'lodash';
+import { forEach, countBy, mergeWith } from 'lodash';
 
 import { DbProvider } from '../../providers/db/db';
 import { Tag } from '../../entity/tag';

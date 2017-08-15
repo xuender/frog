@@ -10,14 +10,23 @@
 			<ion-list col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4>
 				<ion-item>
 					<ion-label>日期</ion-label>
-					<ion-datetime displayFormat="YYYY-MM-DD" cancelText="取消" doneText="确定"></ion-datetime>
+					<ion-datetime displayFormat="YYYY-MM-DD" cancelText="取消" doneText="确定" placeholder="收款日期"></ion-datetime>
+				</ion-item>
+				<ion-item (click)="sub(i)" *ngFor="let i of row.items">
+					{{ i.item.name}}
+					<ion-badge color="secondary">{{ i.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+					<ion-badge item-end>{{ i.num }}</ion-badge>
 				</ion-item>
 				<ion-item>
-					<ion-label>金额</ion-label>
+					<ion-label>应收</ion-label>
+					<ion-input type="number" placeholder="实收金额"></ion-input>
+				</ion-item>
+				<ion-item>
+					<ion-label>实收</ion-label>
 					<ion-input type="number" placeholder="实收金额"></ion-input>
 				</ion-item>
 			</ion-list>
-			<keypad col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8></keypad>
+			<filter-items (select)="addItem($event)" col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8></filter-items>
 		</ion-row>
 	</ion-grid>
 </ion-content>
