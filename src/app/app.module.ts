@@ -15,6 +15,7 @@ import { CustomerPage } from '../pages/customer/customer';
 import { TagsPage } from '../pages/tags/tags';
 import { TagDetailPage } from '../pages/tag-detail/tag-detail';
 import { ComponentsModule } from '../components/components.module';
+import { KeypadPage } from '../pages/keypad/keypad';
 
 @NgModule({
 	declarations: [
@@ -26,6 +27,7 @@ import { ComponentsModule } from '../components/components.module';
 		SettingsPage,
 		TagsPage,
 		TagDetailPage,
+		KeypadPage,
 	],
 	imports: [
 		BrowserModule,
@@ -47,6 +49,7 @@ import { ComponentsModule } from '../components/components.module';
 		SettingsPage,
 		TagsPage,
 		TagDetailPage,
+		KeypadPage,
 	],
 	providers: [
 		StatusBar,

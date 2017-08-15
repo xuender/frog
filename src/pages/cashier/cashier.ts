@@ -1,23 +1,27 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { find, pull } from 'lodash';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { find, pull, sumBy } from 'lodash';
 import { Row, Items } from '../../entity/row';
 import { Item } from '../../entity/item';
+import { KeypadPage } from '../keypad/keypad';
 
 @Component({
 	selector: 'page-cashier',
 	templateUrl: 'cashier.html',
 })
 export class CashierPage {
-	public row: Row;
+	row: Row;
+	receivable: number;
 	constructor(
 		public navCtrl: NavController,
-		public navParams: NavParams
+		public navParams: NavParams,
+		private modalCtrl: ModalController
 	) {
 		this.reset();
 	}
 
-	public reset() {
+	reset() {
+		this.receivable = 0;
 		this.row = {
 			ca: new Date().getTime(),
 			money: 0,
@@ -26,7 +30,7 @@ export class CashierPage {
 		console.log('row', this.row);
 	}
 
-	public addItem(item: Item) {
+	addItem(item: Item) {
 		const is = find(this.row.items, (i: Items) => i.item === item);
 		if (is) {
 			is.num++;
@@ -34,18 +38,30 @@ export class CashierPage {
 		} else {
 			this.row.items.push({ item: item, num: 1, price: item.price });
 		}
+		this.receivable = sumBy(this.row.items, 'price');
 	}
 
-	public sub(i: Items) {
+	sub(i: Items) {
 		if (i.num > 1) {
 			i.num--;
 			i.price -= (i.item as Item).price;
 		} else {
 			pull(this.row.items, i);
 		}
+		this.receivable = sumBy(this.row.items, 'price');
 	}
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad CashierPage');
+	}
+
+	money() {
+		const keypadModal = this.modalCtrl.create(KeypadPage);
+		keypadModal.onDidDismiss((money: number) => {
+			if (money) {
+				this.row.money = money;
+			}
+		});
+		keypadModal.present();
 	}
 }

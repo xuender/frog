@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { KeypadComponent } from './keypad/keypad';
 import { IonicModule } from 'ionic-angular';
 import { FilterItemsComponent } from './filter-items/filter-items';
 @NgModule({
-	declarations: [KeypadComponent,
-    FilterItemsComponent],
+	declarations: [
+		FilterItemsComponent,
+	],
 	imports: [IonicModule],
-	exports: [KeypadComponent,
-    FilterItemsComponent]
+	exports: [
+		FilterItemsComponent,
+	]
 })
 export class ComponentsModule { }

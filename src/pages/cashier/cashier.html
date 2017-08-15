@@ -14,16 +14,20 @@
 				</ion-item>
 				<ion-item (click)="sub(i)" *ngFor="let i of row.items">
 					{{ i.item.name}}
+					<ion-badge color="danger">{{ i.num }}</ion-badge>
+					&#10005;
+					<ion-badge>{{ i.item.price}}</ion-badge>
+					=
 					<ion-badge color="secondary">{{ i.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
-					<ion-badge item-end>{{ i.num }}</ion-badge>
+					<ion-badge *ngFor="let t of i.item.tags" [color]="t.hide?'light':'primary'" item-end>{{ t.name }}</ion-badge>
 				</ion-item>
 				<ion-item>
 					<ion-label>应收</ion-label>
-					<ion-input type="number" placeholder="实收金额"></ion-input>
+					<ion-badge color="secondary" item-end>{{ receivable | currency:'JPY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
-				<ion-item>
+				<ion-item (click)="money()">
 					<ion-label>实收</ion-label>
-					<ion-input type="number" placeholder="实收金额"></ion-input>
+					<ion-badge color="danger" item-end>{{ row.money | currency:'JPY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
 			</ion-list>
 			<filter-items (select)="addItem($event)" col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8></filter-items>
