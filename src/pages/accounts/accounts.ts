@@ -1,24 +1,36 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the AccountsPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import * as moment from 'moment';
+import { sumBy } from 'lodash';
+import { DbProvider } from '../../providers/db/db';
+import { Account } from '../../entity/account';
 
 @Component({
-  selector: 'page-accounts',
-  templateUrl: 'accounts.html',
+	selector: 'page-accounts',
+	templateUrl: 'accounts.html',
 })
 export class AccountsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	date: string;
+	account: Account;
+	sum: number;
+	constructor(
+		public navCtrl: NavController,
+		public navParams: NavParams,
+		private dbProvider: DbProvider
+	) {
+		this.date = this.navParams.get('date');
+		if (!this.date) {
+			this.date = moment(new Date()).format('YYYY-MM-DD');
+		}
+		this.dbProvider.getAccount(this.date)
+			.then((a: Account) => {
+				this.account = a;
+				this.sum = sumBy(this.account.rows, 'money');
+			});
+	}
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad AccountsPage');
-  }
-
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad AccountsPage');
+	}
 }

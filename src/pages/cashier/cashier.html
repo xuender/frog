@@ -1,6 +1,11 @@
 <ion-header>
 	<ion-navbar>
 		<ion-title>收银</ion-title>
+		<ion-buttons start>
+			<button ion-button (click)="accounts()">
+				帐目
+			</button>
+		</ion-buttons>
 		<ion-buttons end>
 			<button ion-button (click)="reset()" strong>
 				重置
@@ -19,9 +24,9 @@
 				</ion-item>
 				<ion-item (click)="sub(i)" *ngFor="let i of row.orders">
 					{{ i.item.name}}
-					<ion-badge color="danger">{{ i.num }}</ion-badge>
+					<ion-badge>{{ i.num }}</ion-badge>
 					&#10005;
-					<ion-badge>{{ i.item.price}}</ion-badge>
+					<ion-badge color="danger">{{ i.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
 					=
 					<ion-badge color="secondary">{{ i.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
 					<ion-badge *ngFor="let t of i.item.tags" [color]="t.hide?'light':'primary'" item-end>{{ t.name }}</ion-badge>
@@ -34,7 +39,7 @@
 					<ion-label>实收</ion-label>
 					<ion-badge color="danger" item-end>{{ row.money | currency:'JPY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
-				<button (click)="done()" ion-button full large>确定</button>
+				<button (click)="done()" [disabled]="row.money == 0 && row.orders.length == 0" ion-button full large>确定</button>
 			</ion-list>
 			<filter-items (select)="addItem($event)" col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8></filter-items>
 		</ion-row>

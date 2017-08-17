@@ -1,18 +1,34 @@
-<!--
-  Generated template for the AccountsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>accounts</ion-title>
-  </ion-navbar>
-
+	<ion-navbar>
+		<ion-title>帐目 {{ date }}</ion-title>
+	</ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
-
+	<ion-list ion-row>
+		<ion-item-group *ngFor="let r of account.rows" col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6>
+			<ion-item-divider color="light">
+				{{ r.ca | date:'y-MM-dd HH:mm:ss' }}
+				<ion-badge color="danger" item-end>{{ r.money | currency:'JPY':true:'1.2-2' }}</ion-badge>
+			</ion-item-divider>
+			<ion-item *ngFor="let o of r.orders">
+				{{ o.item.name}}
+				<ion-badge>{{ o.num }}</ion-badge>
+				&#10005;
+				<ion-badge color="danger">{{ o.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+				=
+				<ion-badge color="secondary">{{ o.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+			</ion-item>
+		</ion-item-group>
+	</ion-list>
 </ion-content>
+<ion-footer>
+	<ion-toolbar>
+		<ion-buttons start>
+			<button ion-button>月</button>
+		</ion-buttons>
+		<ion-buttons end>
+			<button ion-button color="danger">{{ sum | currency:'JPY':true:'1.2-2' }}</button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-footer>

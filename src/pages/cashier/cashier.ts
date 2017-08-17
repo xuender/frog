@@ -7,6 +7,7 @@ import { Item } from '../../entity/item';
 import { KeypadPage } from '../keypad/keypad';
 import { DbProvider } from '../../providers/db/db';
 import { Account } from '../../entity/account';
+import { AccountsPage } from '../accounts/accounts';
 
 @Component({
 	selector: 'page-cashier',
@@ -80,5 +81,9 @@ export class CashierPage {
 				this.dbProvider.saveAccount(account);
 				this.reset();
 			});
+	}
+
+	accounts() {
+		this.navCtrl.push(AccountsPage);
 	}
 }

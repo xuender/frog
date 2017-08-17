@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
 import * as localforage from 'localforage';
-import { indexOf, forEach, isNumber, find, sortBy } from 'lodash';
+import { indexOf, forEach, isNumber, find, sortBy, chain } from 'lodash';
 import * as moment from 'moment';
 
 import { Item } from '../../entity/item';
@@ -131,19 +131,19 @@ export class DbProvider {
 		});
 	}
 
-	getAccount(ca: number): Promise<Account> {
-		const date = moment(ca).format('YY-MM-DD');
+	getAccount(ca: number | string): Promise<Account> {
+		const date: string = isNumber(ca) ? moment(ca).format('YYYY-MM-DD') : ca as string;
 		return new Promise<Account>((resolve, reject) => {
 			localforage.getItem(date)
 				.then((account: Account) => {
 					if (account) {
-						resolve(account);
+						resolve(this.linkAccount(account));
 					} else {
-						resolve({
+						resolve(this.linkAccount({
 							id: this.getSeq(Account.KEY),
 							date: date,
 							rows: [],
-						});
+						}));
 					}
 				})
 				.catch((error) => {
@@ -151,6 +151,10 @@ export class DbProvider {
 					reject(error);
 				});
 		});
+	}
+
+	getData(key: string) {
+		return localforage.getItem(key);
 	}
 
 	saveAccount(account: Account) {
@@ -165,9 +169,23 @@ export class DbProvider {
 		});
 		localforage.setItem(account.date, account)
 			.then((a: Account) => {
+				const d = account.date.split('-');
+				localforage.getItem(d[1])
+					.then((m: string[]) => {
+						if (!m) m = [];
+						m.push(account.date);
+						localforage.setItem(d[1], chain(m).uniq().sort().value());
+					});
+				localforage.getItem(d[0])
+					.then((y: string[]) => {
+						if (!y) y = [];
+						y.push(d[1]);
+						localforage.setItem(d[0], chain(y).uniq().sort().value());
+					});
 				this.linkAccount(account);
 			});
 	}
+
 	private linkAccount(account: Account): Account {
 		forEach(account.rows, (row: Row) => {
 			forEach(row.orders, (order: Order) => {
@@ -180,6 +198,7 @@ export class DbProvider {
 		});
 		return account;
 	}
+
 	private getItem(id: number): Item {
 		return find(this.items, (item: Item) => item.id === id);
 	}

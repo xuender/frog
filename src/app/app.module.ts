@@ -16,6 +16,7 @@ import { TagsPage } from '../pages/tags/tags';
 import { TagDetailPage } from '../pages/tag-detail/tag-detail';
 import { ComponentsModule } from '../components/components.module';
 import { KeypadPage } from '../pages/keypad/keypad';
+import { AccountsPage } from '../pages/accounts/accounts';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { KeypadPage } from '../pages/keypad/keypad';
 		TagsPage,
 		TagDetailPage,
 		KeypadPage,
+		AccountsPage,
 	],
 	imports: [
 		BrowserModule,
@@ -50,6 +52,7 @@ import { KeypadPage } from '../pages/keypad/keypad';
 		TagsPage,
 		TagDetailPage,
 		KeypadPage,
+		AccountsPage,
 	],
 	providers: [
 		StatusBar,
