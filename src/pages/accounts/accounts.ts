@@ -19,15 +19,9 @@ export class AccountsPage {
 		public navParams: NavParams,
 		private dbProvider: DbProvider
 	) {
-		this.date = this.navParams.get('date');
-		if (!this.date) {
-			this.date = moment(new Date()).format('YYYY-MM-DD');
-		}
-		this.dbProvider.getAccount(this.date)
-			.then((a: Account) => {
-				this.account = a;
-				this.sum = sumBy(this.account.rows, 'money');
-			});
+		this.account = this.navParams.get('account');
+		this.date = this.account.date;
+		this.sum = sumBy(this.account.rows, 'money');
 	}
 
 	ionViewDidLoad() {

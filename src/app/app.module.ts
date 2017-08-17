@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -39,6 +40,10 @@ import { AccountsPage } from '../pages/accounts/accounts';
 			iconMode: 'ios',
 			tabsPlacement: 'bottom',
 			pageTransition: 'ios',
+		}),
+		IonicStorageModule.forRoot({
+			name: 'frog',
+			driverOrder: ['indexeddb', 'sqlite', 'websql'],
 		}),
 	],
 	bootstrap: [IonicApp],

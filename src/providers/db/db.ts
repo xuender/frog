@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
-import * as localforage from 'localforage';
 import { indexOf, forEach, isNumber, find, sortBy, chain } from 'lodash';
 import * as moment from 'moment';
+import { Storage } from '@ionic/storage';
+
 
 import { Item } from '../../entity/item';
 import { Tag } from '../../entity/tag';
@@ -21,18 +22,11 @@ export class DbProvider {
 	tags: Tag[] = [];
 	itemsObservable = this.itemsSubject.asObservable();
 	tagsObservable = this.tagsSubject.asObservable();
-	constructor() {
+	constructor(
+		private storage: Storage
+	) {
 		console.log('constructo DbProvider');
-		localforage.config({
-			// driver: localforage.WEBSQL,
-			driver: localforage.LOCALSTORAGE,
-			name: 'frog',
-			version: 1.0,
-			size: 4 * 1024 * 1024,
-			storeName: 'frog',
-			description: 'frog database'
-		});
-		localforage.keys().then((keys) => {
+		this.storage.keys().then((keys) => {
 			if (indexOf(keys, SEQ) < 0) {
 				this.init();
 			} else {
@@ -74,7 +68,7 @@ export class DbProvider {
 
 	saveTags() {
 		forEach(this.tags, (t: Tag, i: number) => t.order = i);
-		localforage.setItem(Tag.KEY, this.tags).then((tags) => {
+		this.storage.set(Tag.KEY, this.tags).then((tags) => {
 			this.tagsSubject.next(this.tags);
 			console.debug('saveTags', this.tags);
 		});
@@ -86,7 +80,7 @@ export class DbProvider {
 			forEach(item.tags, (t) => ids.push(isNumber(t) ? t : t.id))
 			item.tags = ids;
 		})
-		localforage.setItem(Item.KEY, this.items).then((items) => {
+		this.storage.set(Item.KEY, this.items).then((items) => {
 			Object.assign(this.items, this.linkItems(items));
 			this.itemsSubject.next(this.items);
 		});
@@ -115,27 +109,31 @@ export class DbProvider {
 		}
 		num++;
 		this.seq[key] = num;
-		localforage.setItem(SEQ, this.seq);
+		this.storage.set(SEQ, this.seq);
 		return num;
 	}
 
 	private load() {
-		localforage.getItem(SEQ, (err, seq: any) => Object.assign(this.seq, seq));
-		localforage.getItem(Tag.KEY, (err, tags: Tag[]) => {
-			Object.assign(this.tags, tags);
-			this.tagsSubject.next(this.tags);
-		});
-		localforage.getItem(Item.KEY, (err, items: Item[]) => {
-			Object.assign(this.items, this.linkItems(items));
-			this.itemsSubject.next(this.items);
-		});
+		this.storage.get(SEQ)
+			.then((seq: any) => Object.assign(this.seq, seq));
+		this.storage.get(Tag.KEY)
+			.then((tags: Tag[]) => {
+				Object.assign(this.tags, tags);
+				this.tagsSubject.next(this.tags);
+			});
+		this.storage.get(Item.KEY)
+			.then((items: Item[]) => {
+				Object.assign(this.items, this.linkItems(items));
+				this.itemsSubject.next(this.items);
+			});
 	}
 
 	getAccount(ca: number | string): Promise<Account> {
 		const date: string = isNumber(ca) ? moment(ca).format('YYYY-MM-DD') : ca as string;
 		return new Promise<Account>((resolve, reject) => {
-			localforage.getItem(date)
+			this.storage.get(date)
 				.then((account: Account) => {
+					console.log('getAccount:', account);
 					if (account) {
 						resolve(this.linkAccount(account));
 					} else {
@@ -154,7 +152,7 @@ export class DbProvider {
 	}
 
 	getData(key: string) {
-		return localforage.getItem(key);
+		return this.storage.get(key);
 	}
 
 	saveAccount(account: Account) {
@@ -167,20 +165,20 @@ export class DbProvider {
 			});
 			return true;
 		});
-		localforage.setItem(account.date, account)
+		this.storage.set(account.date, account)
 			.then((a: Account) => {
 				const d = account.date.split('-');
-				localforage.getItem(d[1])
+				this.storage.get(d[1])
 					.then((m: string[]) => {
 						if (!m) m = [];
 						m.push(account.date);
-						localforage.setItem(d[1], chain(m).sort().sortedUniq().value());
+						this.storage.set(d[1], chain(m).sort().sortedUniq().value());
 					});
-				localforage.getItem(d[0])
+				this.storage.get(d[0])
 					.then((y: string[]) => {
 						if (!y) y = [];
 						y.push(d[1]);
-						localforage.setItem(d[0], chain(y).sort().sortedUniq().value());
+						this.storage.set(d[0], chain(y).sort().sortedUniq().value());
 					});
 				this.linkAccount(account);
 			});

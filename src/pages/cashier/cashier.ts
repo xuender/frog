@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { find, pull, sumBy } from 'lodash';
+import * as moment from 'moment';
 
 import { Row, Order } from '../../entity/row';
 import { Item } from '../../entity/item';
@@ -84,6 +85,9 @@ export class CashierPage {
 	}
 
 	accounts() {
-		this.navCtrl.push(AccountsPage);
+		this.dbProvider.getAccount(moment(new Date()).format('YYYY-MM-DD'))
+			.then((a: Account) => {
+				this.navCtrl.push(AccountsPage, { account: a });
+			});
 	}
 }
