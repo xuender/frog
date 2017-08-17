@@ -174,13 +174,13 @@ export class DbProvider {
 					.then((m: string[]) => {
 						if (!m) m = [];
 						m.push(account.date);
-						localforage.setItem(d[1], chain(m).uniq().sort().value());
+						localforage.setItem(d[1], chain(m).sort().sortedUniq().value());
 					});
 				localforage.getItem(d[0])
 					.then((y: string[]) => {
 						if (!y) y = [];
 						y.push(d[1]);
-						localforage.setItem(d[0], chain(y).uniq().sort().value());
+						localforage.setItem(d[0], chain(y).sort().sortedUniq().value());
 					});
 				this.linkAccount(account);
 			});
