@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import * as moment from 'moment';
 import { sumBy } from 'lodash';
 import { DbProvider } from '../../providers/db/db';
 import { Account } from '../../entity/account';

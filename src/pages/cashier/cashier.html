@@ -26,10 +26,9 @@
 					{{ i.item.name}}
 					<ion-badge>{{ i.num }}</ion-badge>
 					&#10005;
-					<ion-badge color="danger">{{ i.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+					<ion-badge color="secondary">{{ i.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
 					=
-					<ion-badge color="secondary">{{ i.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
-					<ion-badge *ngFor="let t of i.item.tags" [color]="t.hide?'light':'primary'" item-end>{{ t.name }}</ion-badge>
+					<ion-badge color="danger">{{ i.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
 				<ion-item>
 					<ion-label>应收</ion-label>

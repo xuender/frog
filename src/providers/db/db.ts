@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
-import { indexOf, forEach, isNumber, find, sortBy, chain } from 'lodash';
+import { includes, forEach, isNumber, find, sortBy, chain } from 'lodash';
 import * as moment from 'moment';
 import { Storage } from '@ionic/storage';
 
@@ -26,16 +26,22 @@ export class DbProvider {
 		private storage: Storage
 	) {
 		console.log('constructo DbProvider');
-		this.storage.keys().then((keys) => {
-			if (indexOf(keys, SEQ) < 0) {
-				this.init();
-			} else {
-				this.load();
-			}
-		});
+		this.storage.ready()
+			.then(_ => {
+				console.log('ready');
+				this.storage.keys().then((keys) => {
+					console.log('keys', keys);
+					if (includes(keys, SEQ)) {
+						this.load();
+					} else {
+						this.init();
+					}
+				});
+			});
 	}
 
 	private init() {
+		console.log('init');
 		const tag1 = {
 			id: this.getSeq(Tag.KEY),
 			name: '商品',

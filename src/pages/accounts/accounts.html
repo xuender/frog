@@ -15,9 +15,9 @@
 				{{ o.item.name}}
 				<ion-badge>{{ o.num }}</ion-badge>
 				&#10005;
-				<ion-badge color="danger">{{ o.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+				<ion-badge color="secondary">{{ o.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
 				=
-				<ion-badge color="secondary">{{ o.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+				<ion-badge color="danger">{{ o.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
 			</ion-item>
 		</ion-item-group>
 	</ion-list>

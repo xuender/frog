@@ -43,7 +43,8 @@ import { AccountsPage } from '../pages/accounts/accounts';
 		}),
 		IonicStorageModule.forRoot({
 			name: 'frog',
-			driverOrder: ['indexeddb', 'sqlite', 'websql'],
+			// driverOrder: ['indexeddb', 'sqlite', 'websql'],
+			driverOrder: ['localstorage', 'indexeddb', 'sqlite', 'websql'],
 		}),
 	],
 	bootstrap: [IonicApp],
