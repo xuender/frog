@@ -7,5 +7,6 @@ export class Order {
 export class Row {
 	ca: number;				// 创建时间
 	money: number;			// 金额
+	price: number;			// 成本
 	orders: Array<Order>;	// 商品ID
 }

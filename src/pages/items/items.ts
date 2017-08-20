@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { DbProvider } from '../../providers/db/db';
 import { Item } from '../../entity/item';
 
 @Component({
@@ -9,11 +8,9 @@ import { Item } from '../../entity/item';
 	templateUrl: 'items.html',
 })
 export class ItemsPage {
-
 	constructor(
 		public navCtrl: NavController,
-		public navParams: NavParams,
-		public dbProvider: DbProvider
+		public navParams: NavParams
 	) {
 	}
 

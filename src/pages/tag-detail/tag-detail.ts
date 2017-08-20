@@ -4,7 +4,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { pull } from 'lodash';
 
 import { Tag } from '../../entity/tag';
-import { DbProvider } from '../../providers/db/db';
+import { TagProvider } from '../../providers/tag/tag';
 
 @Component({
 	selector: 'page-tag-detail',
@@ -20,7 +20,7 @@ export class TagDetailPage {
 		public viewCtrl: ViewController,
 		public navParams: NavParams,
 		private alertCtrl: AlertController,
-		private dbProvider: DbProvider,
+		private tagProvider: TagProvider,
 		formBuilder: FormBuilder
 	) {
 		this.tag = navParams.get('tag');
@@ -59,8 +59,9 @@ export class TagDetailPage {
 				{
 					text: '删除',
 					handler: () => {
-						pull(this.dbProvider.tags, this.tag);
-						this.dbProvider.saveTags();
+						const tags = this.tagProvider.tags;
+						pull(tags, this.tag);
+						this.tagProvider.save();
 						this.viewCtrl.dismiss();
 					}
 				}

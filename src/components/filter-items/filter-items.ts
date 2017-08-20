@@ -2,7 +2,8 @@ import { union, forEach, orderBy } from 'lodash';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Item } from '../../entity/item';
 import { Tag } from '../../entity/tag';
-import { DbProvider } from '../../providers/db/db';
+import { TagProvider } from '../../providers/tag/tag';
+import { ItemProvider } from '../../providers/item/item';
 
 @Component({
 	selector: 'filter-items',
@@ -14,18 +15,19 @@ export class FilterItemsComponent {
 	public tags: Tag[];
 	@Output() select: EventEmitter<Item> = new EventEmitter<Item>();
 	constructor(
-		public dbProvider: DbProvider
+		private itemProvider: ItemProvider,
+		private tagProvider: TagProvider
 	) {
-		this.items = this.dbProvider.items;
+		this.items = this.itemProvider.items;
 		if (this.items.length > 0) {
 			this.findTags();
 		}
-		this.dbProvider.itemsObservable.subscribe((items: Item[]) => {
+		this.itemProvider.itemsObservable.subscribe((items: Item[]) => {
 			this.items = items;
 			this.findTags();
 			// stop.unsubscribe();
 		});
-		this.dbProvider.tagsObservable.subscribe((tags: Tag[]) => this.findTags());
+		this.tagProvider.tagsObservable.subscribe((tags: Tag[]) => this.findTags());
 	}
 
 	private findTags() {
@@ -41,7 +43,7 @@ export class FilterItemsComponent {
 	}
 
 	private filter() {
-		this.items = this.dbProvider.items;
+		this.items = this.itemProvider.items;
 		const text = this.searchText ? this.searchText.trim() : '';
 		this.items = this.items.filter((item) => {
 			if (text !== '' && item.name.toLowerCase().indexOf(text.toLowerCase()) < 0) {

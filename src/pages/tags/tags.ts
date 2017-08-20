@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { forEach, countBy, mergeWith } from 'lodash';
 
-import { DbProvider } from '../../providers/db/db';
 import { Tag } from '../../entity/tag';
 import { Item } from '../../entity/item';
 import { TagDetailPage } from '../tag-detail/tag-detail';
+import { TagProvider } from '../../providers/tag/tag';
+import { ItemProvider } from '../../providers/item/item';
+import { SeqProvider } from '../../providers/seq/seq';
 
 @Component({
 	selector: 'page-tags',
@@ -18,15 +20,17 @@ export class TagsPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private modalCtrl: ModalController,
-		private dbProvider: DbProvider
+		private tagProvider: TagProvider,
+		private itemProvider: ItemProvider,
+		private seqProvider: SeqProvider
 	) {
 		this.isReorder = false;
-		this.tags = this.dbProvider.tags;
+		this.tags = this.tagProvider.tags;
 	}
 
 	ionViewDidLoad() {
 		let count: any = {};
-		forEach(this.dbProvider.items, (item: Item) => {
+		forEach(this.itemProvider.items, (item: Item) => {
 			mergeWith(count, countBy(item.tags, 'id'), (a, b) => {
 				if (a && b) return a + b;
 				if (a) return a;
@@ -35,7 +39,7 @@ export class TagsPage {
 			});
 		});
 		for (const id in count) {
-			const tag = this.dbProvider.getTag(id);
+			const tag = this.tagProvider.find(id);
 			if (tag) tag.count = count[id];
 		}
 	}
@@ -47,7 +51,7 @@ export class TagsPage {
 		tagModal.onDidDismiss((t) => {
 			if (t) {
 				Object.assign(tag, t);
-				this.dbProvider.saveTags();
+				this.tagProvider.save();
 			}
 		})
 		tagModal.present();
@@ -64,11 +68,11 @@ export class TagsPage {
 		tagModal.onDidDismiss((tag: Tag) => {
 			if (tag) {
 				this.tags.push(Object.assign({
-					id: this.dbProvider.getSeq(Tag.KEY),
+					id: this.seqProvider.find(Tag.KEY),
 					hide: false,
 					order: this.tags.length,
 				}, tag));
-				this.dbProvider.saveTags();
+				this.tagProvider.save();
 			}
 		})
 		tagModal.present();
@@ -80,7 +84,7 @@ export class TagsPage {
 
 	saveTags() {
 		this.isReorder = false;
-		this.dbProvider.saveTags();
+		this.tagProvider.save();
 	}
 
 	reorderTags(indexes) {

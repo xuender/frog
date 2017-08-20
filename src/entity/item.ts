@@ -4,5 +4,5 @@ export class Item {
 	id: number;
 	name: string;
 	tags: Array<Tag | number>;
-	price: number;
+	price: number;					// 成本
 }

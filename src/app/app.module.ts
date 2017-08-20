@@ -8,7 +8,6 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { DbProvider } from '../providers/db/db';
 import { SettingsPage } from '../pages/settings/settings';
 import { CashierPage } from '../pages/cashier/cashier';
 import { ItemsPage } from '../pages/items/items';
@@ -18,6 +17,10 @@ import { TagDetailPage } from '../pages/tag-detail/tag-detail';
 import { ComponentsModule } from '../components/components.module';
 import { KeypadPage } from '../pages/keypad/keypad';
 import { AccountsPage } from '../pages/accounts/accounts';
+import { AccountsProvider } from '../providers/accounts/accounts';
+import { TagProvider } from '../providers/tag/tag';
+import { ItemProvider } from '../providers/item/item';
+import { SeqProvider } from '../providers/seq/seq';
 
 @NgModule({
 	declarations: [
@@ -64,7 +67,10 @@ import { AccountsPage } from '../pages/accounts/accounts';
 		StatusBar,
 		SplashScreen,
 		{ provide: ErrorHandler, useClass: IonicErrorHandler },
-		DbProvider
+		AccountsProvider,
+		TagProvider,
+		ItemProvider,
+		SeqProvider,
 	]
 })
 export class AppModule { }
