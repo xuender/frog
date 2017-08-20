@@ -26,21 +26,21 @@
 					{{ i.item.name}}
 					<ion-badge>{{ i.num }}</ion-badge>
 					&#10005;
-					<ion-badge color="secondary">{{ i.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+					<ion-badge color="secondary">{{ i.item.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 					=
-					<ion-badge color="secondary">{{ i.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+					<ion-badge color="secondary">{{ i.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
 				<ion-item>
 					<ion-label>成本</ion-label>
-					<ion-badge color="secondary" item-end>{{ row.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+					<ion-badge color="secondary" item-end>{{ row.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
 				<ion-item (click)="money()">
 					<ion-label>实收</ion-label>
-					<ion-badge color="danger" item-end>{{ row.money | currency:'JPY':true:'1.2-2' }}</ion-badge>
+					<ion-badge color="danger" item-end>{{ row.money | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
 				<ion-item>
 					<ion-label>利润</ion-label>
-					<ion-badge item-end>{{ row.money - row.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+					<ion-badge item-end>{{ row.money - row.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
 				<button (click)="done()" [disabled]="row.money == 0 && row.orders.length == 0" ion-button full large>确定</button>
 			</ion-list>

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -67,6 +67,7 @@ import { SeqProvider } from '../providers/seq/seq';
 		StatusBar,
 		SplashScreen,
 		{ provide: ErrorHandler, useClass: IonicErrorHandler },
+		{ provide: LOCALE_ID, useValue: 'zh-CN' },
 		AccountsProvider,
 		TagProvider,
 		ItemProvider,

@@ -99,4 +99,19 @@ export class AccountsProvider {
 		const d = date.split('-');
 		return await this.storage.get(d[0]);
 	}
+
+	years(): Promise<string[]> {
+		return this.reFilter(/^\d{4}$/);
+	}
+
+	private reFilter(re: RegExp): Promise<string[]> {
+		return new Promise<string[]>((resolve, reject) => {
+			this.storage.keys()
+				.then(keys => resolve(chain(keys).filter(key => re.test(key)).sortBy().value()));
+		});
+	}
+
+	allDays(): Promise<string[]> {
+		return this.reFilter(/^\d{4}-\d{2}-\d{2}$/);
+	}
 }

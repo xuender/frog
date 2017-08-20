@@ -3,7 +3,7 @@
 	<button *ngFor="let t of tags" (click)="toggle(t)" [color]="t.hide?'light':'primary'" small ion-button round>{{ t.name }}</button>
 	<button *ngFor="let i of items" (click)="click(i)" ion-item>
 			{{i.name}}
-			<ion-badge color="secondary">{{ i.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+			<ion-badge color="secondary">{{ i.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 			<ion-badge *ngFor="let t of i.tags" [color]="t.hide?'light':'primary'" item-end>{{ t.name }}</ion-badge>
 		</button>
 </ion-list>

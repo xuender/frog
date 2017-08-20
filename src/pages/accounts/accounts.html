@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>帐目 {{ date }}</ion-title>
+		<ion-title>帐目 {{ date }} {{ date | date:'EEEE' }}</ion-title>
 	</ion-navbar>
 </ion-header>
 
@@ -9,32 +9,32 @@
 		<ion-item-group *ngFor="let r of account.rows" col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6>
 			<ion-item-divider color="light">
 				{{ r.ca | date:'HH:mm:ss' }}
-				<ion-badge color="secondary" item-end>{{ r.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
-				<ion-badge color="danger" item-end>{{ r.money | currency:'JPY':true:'1.2-2' }}</ion-badge>
-				<ion-badge item-end>{{ r.money - r.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+				<ion-badge color="danger" item-end>{{ r.money | currency:'CNY':true:'1.2-2' }}</ion-badge>
+				<ion-badge color="secondary" item-end>{{ r.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
+				<ion-badge item-end>{{ r.money - r.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 			</ion-item-divider>
 			<ion-item *ngFor="let o of r.orders">
 				{{ o.item.name}}
 				<ion-badge>{{ o.num }}</ion-badge>
 				&#10005;
-				<ion-badge color="secondary">{{ o.item.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+				<ion-badge color="secondary">{{ o.item.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				=
-				<ion-badge color="secondary">{{ o.price | currency:'JPY':true:'1.2-2' }}</ion-badge>
+				<ion-badge color="secondary">{{ o.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 			</ion-item>
 		</ion-item-group>
 	</ion-list>
 	<ion-fab left middle>
-		<button ion-fab><ion-icon name="arrow-dropleft"></ion-icon></button>
+		<button (click)="show(previous)" [disabled]="!previous" ion-fab><ion-icon name="arrow-dropleft"></ion-icon></button>
 	</ion-fab>
 	<ion-fab right middle>
-		<button ion-fab><ion-icon name="arrow-dropright"></ion-icon></button>
+		<button (click)="show(next)" [disabled]="!next" ion-fab><ion-icon name="arrow-dropright"></ion-icon></button>
 	</ion-fab>
 	<ion-fab #fat right bottom>
 		<button ion-fab color="dark"><ion-icon name="arrow-dropup"></ion-icon></button>
 		<ion-fab-list side="top">
 			<button (click)="days();fat.close();" ion-fab>日</button>
 			<button (click)="months();fat.close();" ion-fab>月</button>
-			<button (click)="days();fat.close();" ion-fab>年</button>
+			<button (click)="years();fat.close();" ion-fab>年</button>
 		</ion-fab-list>
 	</ion-fab>
 </ion-content>
@@ -42,9 +42,9 @@
 	<ion-toolbar>
 		<ion-title>合计</ion-title>
 		<ion-buttons end>
-			<button ion-button color="secondary" solid>{{ price | currency:'JPY':true:'1.2-2' }}</button>
-			<button ion-button color="danger" solid>{{ sum | currency:'JPY':true:'1.2-2' }}</button>
-			<button ion-button color="primary" solid>{{ sum - price | currency:'JPY':true:'1.2-2' }}</button>
+			<button ion-button color="danger" solid>{{ sum | currency:'CNY':true:'1.2-2' }}</button>
+			<button ion-button color="secondary" solid>{{ price | currency:'CNY':true:'1.2-2' }}</button>
+			<button ion-button color="primary" solid>{{ sum - price | currency:'CNY':true:'1.2-2' }}</button>
 		</ion-buttons>
 	</ion-toolbar>
 </ion-footer>
