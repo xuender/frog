@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
 import { Storage } from '@ionic/storage';
 import { forEach, isNumber, chain } from 'lodash';
 import * as moment from 'moment';
@@ -9,7 +8,6 @@ import { Row, Order } from '../../entity/row';
 import { Item } from '../../entity/item';
 import { SeqProvider } from '../seq/seq';
 import { ItemProvider } from '../item/item';
-
 /**
  * 帐目
  */

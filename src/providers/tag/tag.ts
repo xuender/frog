@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
 import { forEach, isNumber, find } from 'lodash';
 import { Storage } from '@ionic/storage';

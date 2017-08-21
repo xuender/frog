@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
 import { forEach, isNumber, sortBy, find } from 'lodash';
 import { Storage } from '@ionic/storage';
@@ -8,7 +7,6 @@ import { Item } from '../../entity/item';
 import { Tag } from '../../entity/tag';
 import { TagProvider } from '../tag/tag';
 import { SeqProvider } from '../seq/seq';
-
 /**
  * 商品
  */
