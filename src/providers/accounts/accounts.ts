@@ -15,34 +15,41 @@ import { ItemProvider } from '../item/item';
  */
 @Injectable()
 export class AccountsProvider {
+	private cache: any;
 	constructor(
 		private storage: Storage,
 		private seqProvider: SeqProvider,
 		private itemProvider: ItemProvider
 	) {
+		this.cache = {};
 		console.log('Hello AccountsProvider Provider');
 	}
 
 	getAccounts(ca: number | string): Promise<Account> {
 		const date: string = isNumber(ca) ? moment(ca).format('YYYY-MM-DD') : ca as string;
 		return new Promise<Account>((resolve, reject) => {
-			this.storage.get(date)
-				.then((account: Account) => {
-					console.log('getAccount:', account);
-					if (account) {
-						resolve(this.link(account));
-					} else {
-						resolve(this.link({
-							id: this.seqProvider.find(Account.KEY),
-							date: date,
-							rows: [],
-						}));
-					}
-				})
-				.catch((error) => {
-					console.log('account error:', error, ca);
-					reject(error);
-				});
+			if (date in this.cache) {
+				resolve(this.cache[date]);
+			} else {
+				this.storage.get(date)
+					.then((account: Account) => {
+						console.log('getAccount:', account);
+						if (account) {
+							this.link(account);
+						} else {
+							account = {
+								id: this.seqProvider.find(Account.KEY),
+								date: date,
+								rows: [],
+							};
+						}
+						resolve(this.cache[date] = account);
+					})
+					.catch((error) => {
+						console.log('account error:', error, ca);
+						reject(error);
+					});
+			}
 		});
 	}
 

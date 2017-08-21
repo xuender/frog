@@ -18,22 +18,30 @@ export class CashierPage {
 	row: Row;
 	date: string;
 	max: string;
+	private oldCa: number;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private modalCtrl: ModalController,
 		private accountsProvider: AccountsProvider,
 	) {
-		this.reset();
+		const row = this.navParams.get('row');
+		if (row) {
+			this.oldCa = row.ca;
+			this.reset(row);
+		} else {
+			this.oldCa = 0;
+			this.reset();
+		}
 	}
 
-	reset() {
-		this.row = {
-			ca: new Date().getTime(),
-			money: 0,
-			price: 0,
-			orders: [],
-		};
+	reset(row = {
+		ca: new Date().getTime(),
+		money: 0,
+		price: 0,
+		orders: [],
+	}) {
+		this.row = row;
 		this.date = new Date(this.row.ca).toISOString();
 		this.max = `${new Date().getFullYear() + 1}`;
 	}
@@ -74,13 +82,21 @@ export class CashierPage {
 	}
 
 	done() {
-		this.row.ca = new Date(this.date).getTime();
-		this.accountsProvider.getAccounts(this.row.ca)
-			.then((account: Account) => {
-				account.rows.push(this.row);
-				this.accountsProvider.save(account);
-				this.reset();
-			});
+		if (this.oldCa) {
+			this.accountsProvider.getAccounts(this.oldCa)
+				.then((account: Account) => {
+					this.accountsProvider.save(account);
+					this.navCtrl.pop();
+				});
+		} else {
+			this.row.ca = new Date(this.date).getTime();
+			this.accountsProvider.getAccounts(this.row.ca)
+				.then((account: Account) => {
+					account.rows.push(this.row);
+					this.accountsProvider.save(account);
+					this.reset();
+				});
+		}
 	}
 
 	accounts() {

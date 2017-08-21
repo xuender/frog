@@ -3,6 +3,8 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { sumBy, forEach, find, indexOf } from 'lodash';
 import { Account } from '../../entity/account';
 import { AccountsProvider } from '../../providers/accounts/accounts';
+import { Row } from '../../entity/row';
+import { CashierPage } from '../cashier/cashier';
 
 @Component({
 	selector: 'page-accounts',
@@ -136,5 +138,11 @@ export class AccountsPage {
 				});
 				yearsAlert.present();
 			});
+	}
+
+	edit(row: Row) {
+		this.navCtrl.push(CashierPage, {
+			row: row,
+		});
 	}
 }
