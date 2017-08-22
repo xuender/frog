@@ -3,9 +3,16 @@
 		<ion-title>设置</ion-title>
 	</ion-navbar>
 </ion-header>
-
 <ion-content padding>
 	<ion-list>
+		<ion-item>
+			<ion-label>显示成本</ion-label>
+			<ion-toggle [(ngModel)]="setting.displayCost" (ionChange)="save()"></ion-toggle>
+		</ion-item>
+		<ion-item>
+			<ion-label>显示利润</ion-label>
+			<ion-toggle [(ngModel)]="setting.displayProfit" (ionChange)="save()"></ion-toggle>
+		</ion-item>
 		<button ion-item (click)="tags()">
 			标签
 		</button>

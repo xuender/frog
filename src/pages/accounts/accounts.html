@@ -13,14 +13,7 @@
 				<ion-badge color="secondary" item-end>{{ r.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				<ion-badge item-end>{{ r.money - r.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 			</ion-item-divider>
-			<ion-item *ngFor="let o of r.orders">
-				{{ o.item.name}}
-				<ion-badge>{{ o.num }}</ion-badge>
-				&#10005;
-				<ion-badge color="secondary">{{ o.item.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
-				=
-				<ion-badge color="secondary">{{ o.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
-			</ion-item>
+			<orders [orders]="r.orders"></orders>
 		</ion-item-group>
 	</ion-list>
 	<ion-fab left middle>

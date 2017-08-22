@@ -4,6 +4,8 @@ import { Item } from '../../entity/item';
 import { Tag } from '../../entity/tag';
 import { TagProvider } from '../../providers/tag/tag';
 import { ItemProvider } from '../../providers/item/item';
+import { Setting } from '../../entity/setting';
+import { SettingProvider } from '../../providers/setting/setting';
 
 @Component({
 	selector: 'filter-items',
@@ -11,12 +13,14 @@ import { ItemProvider } from '../../providers/item/item';
 })
 export class FilterItemsComponent {
 	private searchText: string;
-	public items: Item[];
-	public tags: Tag[];
+	setting: Setting;
+	items: Item[];
+	tags: Tag[];
 	@Output() select: EventEmitter<Item> = new EventEmitter<Item>();
 	constructor(
 		private itemProvider: ItemProvider,
-		private tagProvider: TagProvider
+		private tagProvider: TagProvider,
+		private settingProvider: SettingProvider
 	) {
 		this.items = this.itemProvider.items;
 		if (this.items.length > 0) {
@@ -28,6 +32,7 @@ export class FilterItemsComponent {
 			// stop.unsubscribe();
 		});
 		this.tagProvider.tagsObservable.subscribe((tags: Tag[]) => this.findTags());
+		this.setting = this.settingProvider.setting;
 	}
 
 	private findTags() {

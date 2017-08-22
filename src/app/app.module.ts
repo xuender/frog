@@ -21,6 +21,7 @@ import { AccountsProvider } from '../providers/accounts/accounts';
 import { TagProvider } from '../providers/tag/tag';
 import { ItemProvider } from '../providers/item/item';
 import { SeqProvider } from '../providers/seq/seq';
+import { SettingProvider } from '../providers/setting/setting';
 
 @NgModule({
 	declarations: [
@@ -72,6 +73,7 @@ import { SeqProvider } from '../providers/seq/seq';
 		TagProvider,
 		ItemProvider,
 		SeqProvider,
+    SettingProvider,
 	]
 })
 export class AppModule { }

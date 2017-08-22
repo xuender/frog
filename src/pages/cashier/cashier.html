@@ -22,15 +22,8 @@
 					<ion-label>日期</ion-label>
 					<ion-datetime [(ngModel)]="date" min="2000" [max]="max" displayFormat="YYYY-MM-DD" cancelText="取消" doneText="确定" placeholder="收款日期"></ion-datetime>
 				</ion-item>
-				<ion-item (click)="sub(i)" *ngFor="let i of row.orders">
-					{{ i.item.name}}
-					<ion-badge>{{ i.num }}</ion-badge>
-					&#10005;
-					<ion-badge color="secondary">{{ i.item.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
-					=
-					<ion-badge color="secondary">{{ i.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
-				</ion-item>
-				<ion-item>
+				<orders [orders]="row.orders" (onClick)="sub($event)"></orders>
+				<ion-item *ngIf="setting.displayCost">
 					<ion-label>成本</ion-label>
 					<ion-badge color="secondary" item-end>{{ row.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
@@ -38,7 +31,7 @@
 					<ion-label>实收</ion-label>
 					<ion-badge color="danger" item-end>{{ row.money | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
-				<ion-item>
+				<ion-item *ngIf="setting.displayProfit">
 					<ion-label>利润</ion-label>
 					<ion-badge item-end>{{ row.money - row.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>

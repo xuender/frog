@@ -9,6 +9,8 @@ import { KeypadPage } from '../keypad/keypad';
 import { Account } from '../../entity/account';
 import { AccountsPage } from '../accounts/accounts';
 import { AccountsProvider } from '../../providers/accounts/accounts';
+import { Setting } from '../../entity/setting';
+import { SettingProvider } from '../../providers/setting/setting';
 
 @Component({
 	selector: 'page-cashier',
@@ -18,12 +20,14 @@ export class CashierPage {
 	row: Row;
 	date: string;
 	max: string;
+	setting: Setting;
 	private oldCa: number;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private modalCtrl: ModalController,
 		private accountsProvider: AccountsProvider,
+		private settingProvider: SettingProvider
 	) {
 		const row = this.navParams.get('row');
 		if (row) {
@@ -33,6 +37,7 @@ export class CashierPage {
 			this.oldCa = 0;
 			this.reset();
 		}
+		this.setting = this.settingProvider.setting;
 	}
 
 	reset(row = {

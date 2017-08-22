@@ -1,0 +1,10 @@
+<ion-item (click)="click(i)" *ngFor="let i of orders">
+	{{ i.item.name}}
+	<ion-badge>{{ i.num }}</ion-badge>
+	<span *ngIf="setting.displayCost">
+		&#10005;
+		<ion-badge color="secondary">{{ i.item.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
+		=
+		<ion-badge color="secondary">{{ i.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
+	</span>
+</ion-item>
