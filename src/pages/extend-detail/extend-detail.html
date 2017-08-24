@@ -1,0 +1,35 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>{{ isEdit ? '编辑':'新建' }}用户扩展信息</ion-title>
+		<ion-buttons start>
+			<button ion-button (click)="cancel()">
+				取消
+			</button>
+		</ion-buttons>
+		<ion-buttons end>
+			<button ion-button (click)="done()" [disabled]="!isReadyToSave" strong>
+				保存
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<form *ngIf="form" [formGroup]="form" (ngSubmit)="done()">
+			<ion-item>
+				<ion-label color="primary">扩展信息名称</ion-label>
+				<ion-input type="text" placeholder="扩展信息名称" formControlName="label" required></ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label>数值格式</ion-label>
+				<ion-toggle formControlName="isNumber"></ion-toggle>
+			</ion-item>
+			<ion-item *ngIf="form.value.isNumber">
+				<ion-label color="primary">数值格式化</ion-label>
+				<ion-input placeholder="数值格式化" formControlName="format"></ion-input>
+			</ion-item>
+		</form>
+		<button (click)="del()" color="danger" ion-button full large>删除</button>
+	</ion-list>
+</ion-content>

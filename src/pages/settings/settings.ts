@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { TagsPage } from '../tags/tags';
 import { SettingProvider } from '../../providers/setting/setting';
 import { Setting } from '../../entity/setting';
+import { ExtendsPage } from '../extends/extends';
 
 @Component({
 	selector: 'page-settings',
@@ -19,12 +20,12 @@ export class SettingsPage {
 		this.setting = this.settingProvider.setting;
 	}
 
-	ionViewDidLoad() {
-		console.log('ionViewDidLoad SettingsPage');
-	}
-
 	tags() {
 		this.navCtrl.push(TagsPage);
+	}
+
+	exts() {
+		this.navCtrl.push(ExtendsPage);
 	}
 
 	save() {

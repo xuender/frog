@@ -28,8 +28,8 @@ export class TagProvider {
 		return this._tags;
 	}
 
-	async getTags(): Promise<Tag[]> {
-		return await new Promise<Tag[]>((resolve, reject) => {
+	getTags(): Promise<Tag[]> {
+		return new Promise<Tag[]>((resolve, reject) => {
 			if (this._tags.length == 0) {
 				this.storage.get(Tag.KEY)
 					.then((tags: Tag[]) => {

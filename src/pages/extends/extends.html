@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>标签设置</ion-title>
+		<ion-title>用户扩展信息设置</ion-title>
 		<ion-buttons start>
 			<button *ngIf="isReorder" ion-button (click)="saveTags()">
 				排序完毕
@@ -19,12 +19,12 @@
 
 <ion-content padding>
 	<ion-list [reorder]="isReorder" (ionItemReorder)="reorderTags($event)">
-		<button (click)="edit(t)" ion-item *ngFor="let t of tags">
-			{{ t.name }}
+		<button (click)="edit(e)" ion-item *ngFor="let e of exts">
+			{{ e.label }}
 			<ion-note item-end>
-				{{ t.note }}
+				{{ e.format }}
 			</ion-note>
-			<ion-badge item-end>{{ t.count }}</ion-badge>
+			<ion-badge item-end>{{ e.isNumber? '数': '文' }}</ion-badge>
 		</button>
 	</ion-list>
 </ion-content>

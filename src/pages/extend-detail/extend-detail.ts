@@ -3,38 +3,38 @@ import { NavController, NavParams, ViewController, AlertController } from 'ionic
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { pull } from 'lodash';
 
-import { Tag } from '../../entity/tag';
-import { TagProvider } from '../../providers/tag/tag';
-
+import { Extend } from '../../entity/extend';
+import { ExtendProvider } from '../../providers/extend/extend';
 @Component({
-	selector: 'page-tag-detail',
-	templateUrl: 'tag-detail.html',
+	selector: 'page-extend-detail',
+	templateUrl: 'extend-detail.html',
 })
-export class TagDetailPage {
+export class ExtendDetailPage {
 	form: FormGroup;
 	isReadyToSave: boolean;
 	isEdit: boolean;
-	tag: Tag;
+	ext: Extend;
 	constructor(
 		public navCtrl: NavController,
-		public viewCtrl: ViewController,
 		public navParams: NavParams,
+		public viewCtrl: ViewController,
+		public formBuilder: FormBuilder,
 		private alertCtrl: AlertController,
-		private tagProvider: TagProvider,
-		formBuilder: FormBuilder
+		private extendProvider: ExtendProvider
 	) {
-		this.tag = navParams.get('tag');
+		this.ext = navParams.get('ext');
 		this.isEdit = !navParams.get('add');
-		console.log('tag', this.tag)
 		this.form = formBuilder.group({
-			name: ['', Validators.required],
-			note: ['']
+			label: ['', Validators.required],
+			format: [''],
+			isNumber: [false],
 		});
 		this.form.setValue({
-			name: this.tag.name,
-			note: this.tag.note,
+			label: this.ext.label,
+			format: this.ext.format,
+			isNumber: this.ext.isNumber,
 		});
-		this.form.valueChanges.subscribe((v) => {
+		this.form.valueChanges.subscribe(v => {
 			this.isReadyToSave = this.form.valid;
 		});
 	}
@@ -50,7 +50,7 @@ export class TagDetailPage {
 	del() {
 		this.alertCtrl.create({
 			title: '确认删除?',
-			message: `是否确认删除标签 [ ${this.tag.name} ]?`,
+			message: `是否确认删除客户扩展信息 [ ${this.ext.label} ]?`,
 			buttons: [
 				{
 					text: '取消',
@@ -59,9 +59,9 @@ export class TagDetailPage {
 				{
 					text: '删除',
 					handler: () => {
-						const tags = this.tagProvider.tags;
-						pull(tags, this.tag);
-						this.tagProvider.save();
+						const exts = this.extendProvider.exts;
+						pull(exts, this.ext);
+						this.extendProvider.save();
 						this.viewCtrl.dismiss();
 					}
 				}

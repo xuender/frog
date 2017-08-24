@@ -22,6 +22,9 @@ import { TagProvider } from '../providers/tag/tag';
 import { ItemProvider } from '../providers/item/item';
 import { SeqProvider } from '../providers/seq/seq';
 import { SettingProvider } from '../providers/setting/setting';
+import { ExtendsPage } from '../pages/extends/extends';
+import { ExtendProvider } from '../providers/extend/extend';
+import { ExtendDetailPage } from '../pages/extend-detail/extend-detail';
 
 @NgModule({
 	declarations: [
@@ -35,6 +38,8 @@ import { SettingProvider } from '../providers/setting/setting';
 		TagDetailPage,
 		KeypadPage,
 		AccountsPage,
+		ExtendsPage,
+		ExtendDetailPage,
 	],
 	imports: [
 		BrowserModule,
@@ -63,6 +68,8 @@ import { SettingProvider } from '../providers/setting/setting';
 		TagDetailPage,
 		KeypadPage,
 		AccountsPage,
+		ExtendsPage,
+		ExtendDetailPage,
 	],
 	providers: [
 		StatusBar,
@@ -73,7 +80,8 @@ import { SettingProvider } from '../providers/setting/setting';
 		TagProvider,
 		ItemProvider,
 		SeqProvider,
-    SettingProvider,
+		SettingProvider,
+		ExtendProvider,
 	]
 })
 export class AppModule { }
