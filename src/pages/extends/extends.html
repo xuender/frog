@@ -21,9 +21,6 @@
 	<ion-list [reorder]="isReorder" (ionItemReorder)="reorderTags($event)">
 		<button (click)="edit(e)" ion-item *ngFor="let e of exts">
 			{{ e.label }}
-			<ion-note item-end>
-				{{ e.format }}
-			</ion-note>
 			<ion-badge item-end>{{ e.isNumber? '数': '文' }}</ion-badge>
 		</button>
 	</ion-list>

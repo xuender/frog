@@ -25,6 +25,8 @@ import { SettingProvider } from '../providers/setting/setting';
 import { ExtendsPage } from '../pages/extends/extends';
 import { ExtendProvider } from '../providers/extend/extend';
 import { ExtendDetailPage } from '../pages/extend-detail/extend-detail';
+import { CustomerProvider } from '../providers/customer/customer';
+import { ExtendPipe } from '../pipes/extend/extend';
 
 @NgModule({
 	declarations: [
@@ -40,6 +42,8 @@ import { ExtendDetailPage } from '../pages/extend-detail/extend-detail';
 		AccountsPage,
 		ExtendsPage,
 		ExtendDetailPage,
+
+		ExtendPipe,
 	],
 	imports: [
 		BrowserModule,
@@ -82,6 +86,7 @@ import { ExtendDetailPage } from '../pages/extend-detail/extend-detail';
 		SeqProvider,
 		SettingProvider,
 		ExtendProvider,
+		CustomerProvider,
 	]
 })
 export class AppModule { }

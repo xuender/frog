@@ -45,7 +45,6 @@ export class ExtendsPage {
 			ext: {
 				label: '新扩展',
 				isNumber: false,
-				format: '',
 			},
 			add: true,
 		});

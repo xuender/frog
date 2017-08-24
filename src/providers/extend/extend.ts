@@ -33,43 +33,36 @@ export class ExtendProvider {
 									id: this.seqProvider.find(Extend.KEY),
 									label: '左球镜',
 									isNumber: true,
-									format: '3.2-2',
 								},
 								{
 									id: this.seqProvider.find(Extend.KEY),
 									label: '左柱镜',
 									isNumber: true,
-									format: '3.2-2',
 								},
 								{
 									id: this.seqProvider.find(Extend.KEY),
 									label: '左轴位',
 									isNumber: true,
-									format: '3.2-2',
 								},
 								{
 									id: this.seqProvider.find(Extend.KEY),
 									label: '右球镜',
 									isNumber: true,
-									format: '3.2-2',
 								},
 								{
 									id: this.seqProvider.find(Extend.KEY),
 									label: '右柱镜',
 									isNumber: true,
-									format: '3.2-2',
 								},
 								{
 									id: this.seqProvider.find(Extend.KEY),
 									label: '右轴位',
 									isNumber: true,
-									format: '3.2-2',
 								},
 								{
 									id: this.seqProvider.find(Extend.KEY),
 									label: '瞳距',
 									isNumber: true,
-									format: '3.2-2',
 								},
 							];
 						}

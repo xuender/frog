@@ -5,4 +5,15 @@
 </ion-header>
 
 <ion-content padding>
+	<ion-row>
+		<ion-item-group *ngFor="let g of groups" col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6>
+			<ion-item-divider color="light">{{ g.label }}</ion-item-divider>
+			<button (click)="edit(c)" ion-item *ngFor="let c of g.items">
+				{{ c.name }}
+				<ion-note item-end>
+					{{ c.extend | extend }}
+				</ion-note>
+			</button>
+		</ion-item-group>
+	</ion-row>
 </ion-content>

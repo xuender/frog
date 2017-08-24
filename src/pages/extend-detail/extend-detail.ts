@@ -31,7 +31,6 @@ export class ExtendDetailPage {
 		});
 		this.form.setValue({
 			label: this.ext.label,
-			format: this.ext.format,
 			isNumber: this.ext.isNumber,
 		});
 		this.form.valueChanges.subscribe(v => {

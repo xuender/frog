@@ -4,5 +4,4 @@ export class Extend {
 	id: number;
 	label: string;		// 标题
 	isNumber: boolean;	// 是否是数字
-	format: string;		// 格式化
 }

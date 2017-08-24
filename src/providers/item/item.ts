@@ -31,8 +31,8 @@ export class ItemProvider {
 		return this._items;
 	}
 
-	async getItems() {
-		return await new Promise<Item[]>((resolve, reject) => {
+	getItems() {
+		return new Promise<Item[]>((resolve, reject) => {
 			if (this._items.length === 0) {
 				this.storage.get(Item.KEY)
 					.then((items: Item[]) => {
