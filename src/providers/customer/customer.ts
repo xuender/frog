@@ -4,11 +4,13 @@ import { sortBy } from 'lodash';
 
 import { Customer } from '../../entity/customer';
 import { SeqProvider } from '../seq/seq';
+import { TagProvider } from '../tag/tag';
 @Injectable()
 export class CustomerProvider {
 	private _cs: Customer[] = [];
 	constructor(
 		private storage: Storage,
+		private tagProvider: TagProvider,
 		private seqProvider: SeqProvider
 	) {
 		console.log('Hello CustomerProvider Provider');
@@ -28,32 +30,39 @@ export class CustomerProvider {
 					.then((cs: Customer[]) => {
 						if (cs) {
 							Object.assign(this._cs, sortBy(cs, 'name'));
+							resolve(this._cs);
 						} else {
-							[].push.apply(this._cs, sortBy([
-								{
-									id: this.seqProvider.find(Customer.KEY),
-									name: '张三',
-									extend: { 1: -3, 2: 3.1, 3: 40 },
-									phone: '110',
-									note: 'ffff',
-								},
-								{
-									id: this.seqProvider.find(Customer.KEY),
-									name: '李四',
-									extend: { 1: -3, 2: 3.1, 3: 40 },
-									phone: '110',
-									note: 'ffff',
-								},
-								{
-									id: this.seqProvider.find(Customer.KEY),
-									name: '张三丰',
-									extend: { 1: -3, 2: 3.1, 3: 40 },
-									phone: '110',
-									note: 'ffff',
-								},
-							], 'name'));
+							this.tagProvider.getTags()
+								.then(tags => {
+									[].push.apply(this._cs, sortBy([
+										{
+											id: this.seqProvider.find(Customer.KEY),
+											name: '张三',
+											extend: { 1: -3, 2: 3.1, 3: 40 },
+											tags: [],
+											phone: '110',
+											note: 'ffff',
+										},
+										{
+											id: this.seqProvider.find(Customer.KEY),
+											name: '李四',
+											extend: { 1: -3, 2: 3.1, 3: 40 },
+											tags: [],
+											phone: '110',
+											note: 'ffff',
+										},
+										{
+											id: this.seqProvider.find(Customer.KEY),
+											name: '张三丰',
+											extend: { 1: -3, 2: 3.1, 3: 40 },
+											tags: [tags[2]],
+											phone: '110',
+											note: 'ffff',
+										},
+									], 'name'));
+									resolve(this._cs);
+								});
 						}
-						resolve(this._cs);
 					});
 			} else {
 				resolve(this._cs);

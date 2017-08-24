@@ -1,5 +1,5 @@
-import { Tag } from './tag';
-export class Item {
+import { Tag, Tags } from './tag';
+export class Item implements Tags {
 	static KEY = 'items';
 	id: number;
 	name: string;

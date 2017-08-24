@@ -24,22 +24,15 @@ export class FilterItemsComponent {
 	) {
 		this.items = this.itemProvider.items;
 		if (this.items.length > 0) {
-			this.findTags();
+			this.tags = this.tagProvider.findTags(this.items);
 		}
 		this.itemProvider.itemsObservable.subscribe((items: Item[]) => {
 			this.items = items;
-			this.findTags();
+			this.tags = this.tagProvider.findTags(this.items);
 			// stop.unsubscribe();
 		});
-		this.tagProvider.tagsObservable.subscribe((tags: Tag[]) => this.findTags());
+		this.tagProvider.tagsObservable.subscribe((tags: Tag[]) => this.tags = this.tagProvider.findTags(this.items));
 		this.setting = this.settingProvider.setting;
-	}
-
-	private findTags() {
-		let tags = []
-		forEach(this.items, (item: Item) => tags = union(tags, item.tags));
-		this.tags = orderBy(tags, 'order');
-		console.debug('findtags sort', this.tags);
 	}
 
 	public getItems(ev: any) {

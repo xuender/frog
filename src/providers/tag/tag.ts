@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { forEach, isNumber, find } from 'lodash';
+import { forEach, isNumber, find, orderBy, union } from 'lodash';
 import { Storage } from '@ionic/storage';
 
-import { Tag } from '../../entity/tag';
+import { Tag, Tags } from '../../entity/tag';
 import { SeqProvider } from '../seq/seq';
 /**
  * 标签
@@ -46,7 +46,13 @@ export class TagProvider {
 									name: '耗材',
 									hide: false,
 									note: '销售需要的耗材',
-								}
+								},
+								{
+									id: this.seqProvider.find(Tag.KEY),
+									name: 'VIP',
+									hide: false,
+									note: '重要客户',
+								},
 							];
 						}
 						console.log('get tags:', tags);
@@ -73,5 +79,11 @@ export class TagProvider {
 			id = parseInt(id as string);
 		}
 		return find(this._tags, (tag) => tag.id === id);
+	}
+
+	findTags(tags: Tags[]): Tag[] {
+		let ts = [];
+		forEach(tags, (t: Tags) => ts = union(ts, t.tags));
+		return orderBy(ts, 'order');
 	}
 }

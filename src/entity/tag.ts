@@ -1,3 +1,6 @@
+export interface Tags {
+	tags: Array<Tag | number>;
+}
 export class Tag {
 	static KEY = 'tags';
 	id: number;
