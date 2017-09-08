@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { forEach, isNumber, chain } from 'lodash';
+import { forEach, isFinite, chain } from 'lodash';
 import * as moment from 'moment';
 
 import { Account } from '../../entity/account';
@@ -27,7 +27,7 @@ export class AccountsProvider {
 	}
 
 	getAccounts(ca: number | string): Promise<Account> {
-		const date: string = isNumber(ca) ? moment(ca).format('YYYY-MM-DD') : ca as string;
+		const date: string = isFinite(ca) ? moment(ca).format('YYYY-MM-DD') : ca as string;
 		return new Promise<Account>((resolve, reject) => {
 			if (date in this.cache) {
 				resolve(this.cache[date]);
@@ -57,11 +57,11 @@ export class AccountsProvider {
 	private link(account: Account): Account {
 		forEach(account.rows, (row: Row) => {
 			// 客户修改
-			if (row.customer && isNumber(row.customer)) {
+			if (row.customer && isFinite(row.customer)) {
 				row.customer = this.customerProvider.find(row.customer as number);
 			}
 			forEach(row.orders, (order: Order) => {
-				if (isNumber(order.item)) {
+				if (isFinite(order.item)) {
 					order.item = this.itemProvider.find(order.item as number);
 				}
 				return true;
@@ -74,11 +74,11 @@ export class AccountsProvider {
 	save(account: Account) {
 		forEach(account.rows, (row: Row) => {
 			// 客户修改
-			if (row.customer && !isNumber(row.customer)) {
+			if (row.customer && !isFinite(row.customer)) {
 				row.customer = (row.customer as Customer).id;
 			}
 			forEach(row.orders, (order: Order) => {
-				if (!isNumber(order.item)) {
+				if (!isFinite(order.item)) {
 					order.item = (order.item as Item).id;
 				}
 				return true;

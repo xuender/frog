@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { sortBy, find, isNumber, forEach } from 'lodash';
+import { sortBy, find, isFinite, forEach } from 'lodash';
 
 import { Customer } from '../../entity/customer';
 import { SeqProvider } from '../seq/seq';
@@ -75,7 +75,7 @@ export class CustomerProvider {
 	save() {
 		forEach(this._cs, (c: Customer) => {
 			const ids: number[] = [];
-			forEach(c.tags, (t) => ids.push(isNumber(t) ? t : t.id))
+			forEach(c.tags, (t) => ids.push(isFinite(t) ? t : t.id))
 			c.tags = ids;
 		})
 		this.storage.set(Customer.KEY, this._cs).then((cs) => {
@@ -87,7 +87,7 @@ export class CustomerProvider {
 	private link(cs: Customer[]): Customer[] {
 		forEach(cs, (c: Customer) => {
 			const tags: Tag[] = [];
-			forEach(c.tags, (t) => tags.push(isNumber(t) ? this.tagProvider.find(t) : t));
+			forEach(c.tags, (t) => tags.push(isFinite(t) ? this.tagProvider.find(t) : t));
 			c.tags = sortBy(tags, 'order');
 		});
 		console.log('link cs:', cs)
@@ -95,7 +95,7 @@ export class CustomerProvider {
 	}
 
 	find(id: number | string): Customer {
-		if (!isNumber(id)) {
+		if (!isFinite(id)) {
 			id = parseInt(id as string);
 		}
 		return find(this._cs, (c) => c.id === id);

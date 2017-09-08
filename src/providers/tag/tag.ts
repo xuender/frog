@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { forEach, isNumber, find, orderBy, union } from 'lodash';
+import { forEach, isFinite, find, orderBy, union } from 'lodash';
 import { Storage } from '@ionic/storage';
 
 import { Tag, Tags } from '../../entity/tag';
@@ -76,7 +76,7 @@ export class TagProvider {
 	}
 
 	find(id: number | string): Tag {
-		if (!isNumber(id)) {
+		if (!isFinite(id)) {
 			id = parseInt(id as string);
 		}
 		return find(this._tags, (tag) => tag.id === id);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { forEach, isNumber, sortBy, find } from 'lodash';
+import { forEach, isFinite, sortBy, find } from 'lodash';
 import { Storage } from '@ionic/storage';
 
 import { Item } from '../../entity/item';
@@ -73,7 +73,7 @@ export class ItemProvider {
 		console.log('save items');
 		forEach(this._items, (item: Item) => {
 			const ids: number[] = [];
-			forEach(item.tags, (t) => ids.push(isNumber(t) ? t : t.id))
+			forEach(item.tags, (t) => ids.push(isFinite(t) ? t : t.id))
 			item.tags = ids;
 		})
 		this.storage.set(Item.KEY, this._items).then(items => {
@@ -85,7 +85,7 @@ export class ItemProvider {
 	private link(items: Item[]): Item[] {
 		forEach(items, (item: Item) => {
 			const tags: Tag[] = [];
-			forEach(item.tags, (t) => tags.push(isNumber(t) ? this.tagProvider.find(t) : t));
+			forEach(item.tags, (t) => tags.push(isFinite(t) ? this.tagProvider.find(t) : t));
 			item.tags = sortBy(tags, 'order');
 		});
 		console.log('link item:', items)
@@ -93,7 +93,7 @@ export class ItemProvider {
 	}
 
 	find(id: number | string): Item {
-		if (!isNumber(id)) {
+		if (!isFinite(id)) {
 			id = parseInt(id as string);
 		}
 		return find(this._items, item => item.id === id);
