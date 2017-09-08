@@ -78,4 +78,8 @@ export class CustomerPage {
 		} else {
 		}
 	}
+
+	cancel() {
+		this.viewCtrl.dismiss();
+	}
 }

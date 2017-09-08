@@ -13,6 +13,7 @@ import { Setting } from '../../entity/setting';
 import { SettingProvider } from '../../providers/setting/setting';
 import { CustomerPage } from '../customer/customer';
 import { Customer } from '../../entity/customer';
+import { CustomerProvider } from '../../providers/customer/customer';
 
 @Component({
 	selector: 'page-cashier',
@@ -24,16 +25,20 @@ export class CashierPage {
 	max: string;
 	setting: Setting;
 	private oldCa: number;
+	private oldMoney: number;
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private modalCtrl: ModalController,
 		private accountsProvider: AccountsProvider,
+		private customerProvider: CustomerProvider,
 		private settingProvider: SettingProvider
 	) {
 		const row = this.navParams.get('row');
+		this.oldMoney = 0;
 		if (row) {
 			this.oldCa = row.ca;
+			this.oldMoney = row.money;
 			this.reset(row);
 		} else {
 			this.oldCa = 0;
@@ -89,6 +94,15 @@ export class CashierPage {
 	}
 
 	done() {
+		if (this.row.customer) {
+			const c = this.row.customer as Customer;
+			if (!c.total) {
+				c.total = 0;
+			}
+			c.total += (this.row.money - this.oldMoney);
+			console.log('c', c, this.row.money, this.oldMoney);
+			this.customerProvider.save();
+		}
 		if (this.oldCa) {
 			this.accountsProvider.getAccounts(this.oldCa)
 				.then((account: Account) => {

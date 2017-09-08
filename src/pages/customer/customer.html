@@ -1,6 +1,11 @@
 <ion-header>
 	<ion-navbar>
 		<ion-title>客户</ion-title>
+		<ion-buttons *ngIf="isSelect" end>
+			<button ion-button (click)="cancel()">
+				取消
+			</button>
+		</ion-buttons>
 	</ion-navbar>
 </ion-header>
 
@@ -12,6 +17,7 @@
 			<ion-item-divider color="light">{{ g.label }}</ion-item-divider>
 			<button (click)="edit(c)" ion-item *ngFor="let c of g.items">
 				{{ c.name }}
+				<ion-badge *ngIf="c.total" color="dark" item-end>{{ c.total | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				<ion-badge *ngFor="let t of c.tags" [color]="t.hide?'light':'primary'" item-end>{{ t.name }}</ion-badge>
 				<ion-note item-end>
 					{{ c.extend | extend }}

@@ -8,4 +8,5 @@ export class Customer implements Tags {
 	tags: Array<Tag | number>;		// 标签
 	phone?: string;					// 联系电话
 	note?: string;					// 备注
+	total?: number;					// 客户消费总计
 }
