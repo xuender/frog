@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { sortBy } from 'lodash';
+import { sortBy, find, isNumber, forEach } from 'lodash';
 
 import { Customer } from '../../entity/customer';
 import { SeqProvider } from '../seq/seq';
 import { TagProvider } from '../tag/tag';
+import { Tag } from '../../entity/tag';
 @Injectable()
 export class CustomerProvider {
 	private _cs: Customer[] = [];
@@ -13,7 +14,7 @@ export class CustomerProvider {
 		private tagProvider: TagProvider,
 		private seqProvider: SeqProvider
 	) {
-		console.log('Hello CustomerProvider Provider');
+		this.getCs();
 	}
 
 	get cs(): Customer[] {
@@ -30,7 +31,7 @@ export class CustomerProvider {
 					.then((cs: Customer[]) => {
 						if (cs) {
 							Object.assign(this._cs, sortBy(cs, 'name'));
-							resolve(this._cs);
+							resolve(this.link(this._cs));
 						} else {
 							this.tagProvider.getTags()
 								.then(tags => {
@@ -60,6 +61,7 @@ export class CustomerProvider {
 											note: 'ffff',
 										},
 									], 'name'));
+									this.save();
 									resolve(this._cs);
 								});
 						}
@@ -68,5 +70,34 @@ export class CustomerProvider {
 				resolve(this._cs);
 			}
 		});
+	}
+
+	save() {
+		forEach(this._cs, (c: Customer) => {
+			const ids: number[] = [];
+			forEach(c.tags, (t) => ids.push(isNumber(t) ? t : t.id))
+			c.tags = ids;
+		})
+		this.storage.set(Customer.KEY, this._cs).then((cs) => {
+			Object.assign(this._cs, this.link(cs));
+			console.debug('saveCustomer', cs);
+		});
+	}
+
+	private link(cs: Customer[]): Customer[] {
+		forEach(cs, (c: Customer) => {
+			const tags: Tag[] = [];
+			forEach(c.tags, (t) => tags.push(isNumber(t) ? this.tagProvider.find(t) : t));
+			c.tags = sortBy(tags, 'order');
+		});
+		console.log('link cs:', cs)
+		return cs;
+	}
+
+	find(id: number | string): Customer {
+		if (!isNumber(id)) {
+			id = parseInt(id as string);
+		}
+		return find(this._cs, (c) => c.id === id);
 	}
 }

@@ -35,6 +35,10 @@
 					<ion-label>利润</ion-label>
 					<ion-badge item-end>{{ row.money - row.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				</ion-item>
+				<ion-item (click)="selectCustomer()">
+					<ion-label>客户</ion-label>
+					<ion-note *ngIf="row.customer" item-end>{{ row.customer.name }}</ion-note>
+				</ion-item>
 				<button (click)="done()" [disabled]="row.money == 0 && row.orders.length == 0" ion-button full large>确定</button>
 			</ion-list>
 			<filter-items (select)="addItem($event)" col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8></filter-items>

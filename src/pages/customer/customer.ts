@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { chain } from 'lodash';
 
 import { Customer } from '../../entity/customer';
@@ -14,19 +14,23 @@ import { TagProvider } from '../../providers/tag/tag';
 export class CustomerPage {
 	private cs: Customer[];
 	private searchText = '';
+	private isSelect: boolean;
 	groups: Group[] = [];
 	tags: Tag[] = [];
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
+		public viewCtrl: ViewController,
 		private customerProvider: CustomerProvider,
-		private tagProvider: TagProvider
+		tagProvider: TagProvider
 	) {
+		this.isSelect = navParams.get('select');
 		this.customerProvider.getCs()
 			.then((cs: Customer[]) => {
 				this.cs = cs;
 				this.group();
 				this.tags = tagProvider.findTags(this.cs);
+				console.log('cs', JSON.stringify(this.tags));
 			});
 	}
 
@@ -63,8 +67,15 @@ export class CustomerPage {
 		this.group();
 	}
 
-	public toggle(tag: Tag) {
+	toggle(tag: Tag) {
 		tag.hide = !tag.hide;
 		this.doFilter();
+	}
+
+	edit(c: Customer) {
+		if (this.isSelect) {
+			this.viewCtrl.dismiss(c);
+		} else {
+		}
 	}
 }

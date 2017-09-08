@@ -8,6 +8,8 @@ import { Row, Order } from '../../entity/row';
 import { Item } from '../../entity/item';
 import { SeqProvider } from '../seq/seq';
 import { ItemProvider } from '../item/item';
+import { CustomerProvider } from '../customer/customer';
+import { Customer } from '../../entity/customer';
 /**
  * 帐目
  */
@@ -17,6 +19,7 @@ export class AccountsProvider {
 	constructor(
 		private storage: Storage,
 		private seqProvider: SeqProvider,
+		private customerProvider: CustomerProvider,
 		private itemProvider: ItemProvider
 	) {
 		this.cache = {};
@@ -53,6 +56,10 @@ export class AccountsProvider {
 
 	private link(account: Account): Account {
 		forEach(account.rows, (row: Row) => {
+			// 客户修改
+			if (row.customer && isNumber(row.customer)) {
+				row.customer = this.customerProvider.find(row.customer as number);
+			}
 			forEach(row.orders, (order: Order) => {
 				if (isNumber(order.item)) {
 					order.item = this.itemProvider.find(order.item as number);
@@ -66,6 +73,10 @@ export class AccountsProvider {
 
 	save(account: Account) {
 		forEach(account.rows, (row: Row) => {
+			// 客户修改
+			if (row.customer && !isNumber(row.customer)) {
+				row.customer = (row.customer as Customer).id;
+			}
 			forEach(row.orders, (order: Order) => {
 				if (!isNumber(order.item)) {
 					order.item = (order.item as Item).id;

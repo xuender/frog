@@ -19,6 +19,7 @@ export class TagProvider {
 		private seqProvider: SeqProvider
 	) {
 		this._tags = [];
+		this.getTags();
 	}
 
 	get tags() {

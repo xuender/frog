@@ -11,6 +11,8 @@ import { AccountsPage } from '../accounts/accounts';
 import { AccountsProvider } from '../../providers/accounts/accounts';
 import { Setting } from '../../entity/setting';
 import { SettingProvider } from '../../providers/setting/setting';
+import { CustomerPage } from '../customer/customer';
+import { Customer } from '../../entity/customer';
 
 @Component({
 	selector: 'page-cashier',
@@ -110,5 +112,15 @@ export class CashierPage {
 			.then((a: Account) => {
 				this.navCtrl.push(AccountsPage, { account: a });
 			});
+	}
+
+	selectCustomer() {
+		const modal = this.modalCtrl.create(CustomerPage, { select: true });
+		modal.onDidDismiss((c: Customer) => {
+			if (c) {
+				this.row.customer = c;
+			}
+		});
+		modal.present();
 	}
 }

@@ -9,6 +9,9 @@
 		<ion-item-group (click)="edit(r)" *ngFor="let r of account.rows" col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6>
 			<ion-item-divider color="light">
 				{{ r.ca | date:'HH:mm:ss' }}
+				<ion-note *ngIf="r.customer" item-end>
+					{{ r.customer.name }}
+				</ion-note>
 				<ion-badge color="danger" item-end>{{ r.money | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				<ion-badge color="secondary" item-end>{{ r.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
 				<ion-badge item-end>{{ r.money - r.price | currency:'CNY':true:'1.2-2' }}</ion-badge>
