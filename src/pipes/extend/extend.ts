@@ -8,7 +8,7 @@ import { ExtendProvider } from '../../providers/extend/extend';
 export class ExtendPipe implements PipeTransform {
 	private exts: Extend[];
 	constructor(
-		private extendProvider: ExtendProvider
+		extendProvider: ExtendProvider
 	) {
 		this.exts = extendProvider.exts;
 	}

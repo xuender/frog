@@ -1,4 +1,3 @@
-import { union, forEach, orderBy } from 'lodash';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Item } from '../../entity/item';
 import { Tag } from '../../entity/tag';
