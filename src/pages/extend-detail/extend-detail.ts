@@ -26,7 +26,6 @@ export class ExtendDetailPage {
 		this.isEdit = !navParams.get('add');
 		this.form = formBuilder.group({
 			label: ['', Validators.required],
-			format: [''],
 			isNumber: [false],
 		});
 		this.form.setValue({

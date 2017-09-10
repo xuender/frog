@@ -8,5 +8,6 @@ export class Tag {
 	hide: boolean;
 	order?: number;
 	note?: string;
-	count?: number;
+	items?: number;
+	customers?: number;
 }

@@ -20,7 +20,7 @@ export class CustomerPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private customerProvider: CustomerProvider,
-		private tagProvider: TagProvider
+		tagProvider: TagProvider
 	) {
 		this.customerProvider.getCs()
 			.then((cs: Customer[]) => {

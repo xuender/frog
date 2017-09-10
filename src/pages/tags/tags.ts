@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { forEach, countBy, mergeWith } from 'lodash';
 
-import { Tag } from '../../entity/tag';
-import { Item } from '../../entity/item';
+import { Tag, Tags } from '../../entity/tag';
 import { TagDetailPage } from '../tag-detail/tag-detail';
 import { TagProvider } from '../../providers/tag/tag';
 import { ItemProvider } from '../../providers/item/item';
 import { SeqProvider } from '../../providers/seq/seq';
+import { CustomerProvider } from '../../providers/customer/customer';
 
 @Component({
 	selector: 'page-tags',
@@ -22,6 +22,7 @@ export class TagsPage {
 		private modalCtrl: ModalController,
 		private tagProvider: TagProvider,
 		private itemProvider: ItemProvider,
+		private customerProvider: CustomerProvider,
 		private seqProvider: SeqProvider
 	) {
 		this.isReorder = false;
@@ -29,8 +30,27 @@ export class TagsPage {
 	}
 
 	ionViewDidLoad() {
-		let count: any = {};
-		forEach(this.itemProvider.items, (item: Item) => {
+		this.itemProvider.getItems()
+			.then(items => {
+				const count = this.doCount(items);
+				for (const id in count) {
+					const tag = this.tagProvider.find(id);
+					if (tag) tag.items = count[id];
+				}
+			});
+		this.customerProvider.getCs()
+			.then(cs => {
+				const count = this.doCount(cs);
+				for (const id in count) {
+					const tag = this.tagProvider.find(id);
+					if (tag) tag.customers = count[id];
+				}
+			});
+	}
+
+	private doCount(items: Tags[]): any {
+		const count: any = {};
+		forEach(items, (item: Tags) => {
 			mergeWith(count, countBy(item.tags, 'id'), (a, b) => {
 				if (a && b) return a + b;
 				if (a) return a;
@@ -38,10 +58,7 @@ export class TagsPage {
 				return 0;
 			});
 		});
-		for (const id in count) {
-			const tag = this.tagProvider.find(id);
-			if (tag) tag.count = count[id];
-		}
+		return count;
 	}
 
 	edit(tag: Tag) {
