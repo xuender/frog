@@ -24,6 +24,13 @@ export class ItemProvider {
 		this._items = [];
 	}
 
+	reset() {
+		if (this._items.length > 0) {
+			this._items.splice(0, this._items.length);
+			this.getItems();
+		}
+	}
+
 	get items(): Item[] {
 		if (this._items.length == 0) {
 			this.getItems();

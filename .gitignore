@@ -84,6 +84,7 @@ plugins/
 plugins/android.json
 plugins/ios.json
 www/
+web/
 $RECYCLE.BIN/
 
 .DS_Store

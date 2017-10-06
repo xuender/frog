@@ -5,6 +5,7 @@ import { TagsPage } from '../tags/tags';
 import { SettingProvider } from '../../providers/setting/setting';
 import { Setting } from '../../entity/setting';
 import { ExtendsPage } from '../extends/extends';
+import { BakPage } from '../bak/bak';
 
 @Component({
 	selector: 'page-settings',
@@ -30,5 +31,9 @@ export class SettingsPage {
 
 	save() {
 		this.settingProvider.save();
+	}
+
+	bak() {
+		this.navCtrl.push(BakPage);
 	}
 }

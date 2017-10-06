@@ -1,0 +1,30 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>备份</ion-title>
+		<ion-buttons end>
+			<button ion-button (click)="bak()" strong>
+				备份
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<ion-item-sliding *ngFor="let b of baks" #item>
+			<ion-item>
+				{{ b.name }}
+			</ion-item>
+			<ion-item-options side="right">
+				<button ion-button color="primary" (click)="restore(b, item)">
+					<ion-icon name="redo"></ion-icon>
+					恢复
+				</button>
+				<button ion-button color="danger" (click)="remove(b, item)">
+					<ion-icon name="trash"></ion-icon>
+					删除
+				</button>
+			</ion-item-options>
+		</ion-item-sliding>
+	</ion-list>
+</ion-content>

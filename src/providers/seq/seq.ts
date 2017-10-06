@@ -11,6 +11,10 @@ export class SeqProvider {
 	constructor(
 		private storage: Storage
 	) {
+		this.reset();
+	}
+
+	reset() {
 		this.storage.ready()
 			.then(_ => {
 				this.storage.get(SEQ)

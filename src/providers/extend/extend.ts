@@ -15,6 +15,13 @@ export class ExtendProvider {
 		console.log('Hello ExtendProvider Provider');
 	}
 
+	reset() {
+		if (this._exts.length > 0) {
+			this._exts.splice(0, this._exts.length);
+			this.getExts();
+		}
+	}
+
 	get exts() {
 		if (this._exts.length == 0) {
 			this.getExts();

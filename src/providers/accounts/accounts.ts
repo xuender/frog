@@ -26,6 +26,10 @@ export class AccountsProvider {
 		console.log('Hello AccountsProvider Provider');
 	}
 
+	reset() {
+		this.cache = {};
+	}
+
 	getAccounts(ca: number | string): Promise<Account> {
 		const date: string = isFinite(ca) ? moment(ca).format('YYYY-MM-DD') : ca as string;
 		return new Promise<Account>((resolve, reject) => {
@@ -116,8 +120,8 @@ export class AccountsProvider {
 		return await this.storage.get(d[0]);
 	}
 
-	years(): Promise<string[]> {
-		return this.reFilter(/^\d{4}$/);
+	async years() {
+		return await this.reFilter(/^\d{4}$/);
 	}
 
 	private reFilter(re: RegExp): Promise<string[]> {
@@ -127,7 +131,7 @@ export class AccountsProvider {
 		});
 	}
 
-	allDays(): Promise<string[]> {
-		return this.reFilter(/^\d{4}-\d{2}-\d{2}$/);
+	async allDays() {
+		return await this.reFilter(/^\d{4}-\d{2}-\d{2}$/);
 	}
 }

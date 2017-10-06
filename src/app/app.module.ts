@@ -8,15 +8,22 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { File } from '@ionic-native/file';
+
+import { ComponentsModule } from '../components/components.module';
+import { ExtendPipe } from '../pipes/extend/extend';
+
 import { SettingsPage } from '../pages/settings/settings';
 import { CashierPage } from '../pages/cashier/cashier';
 import { ItemsPage } from '../pages/items/items';
 import { CustomerPage } from '../pages/customer/customer';
 import { TagsPage } from '../pages/tags/tags';
 import { TagDetailPage } from '../pages/tag-detail/tag-detail';
-import { ComponentsModule } from '../components/components.module';
 import { KeypadPage } from '../pages/keypad/keypad';
 import { AccountsPage } from '../pages/accounts/accounts';
+import { ExtendDetailPage } from '../pages/extend-detail/extend-detail';
+import { BakPage } from '../pages/bak/bak';
+
 import { AccountsProvider } from '../providers/accounts/accounts';
 import { TagProvider } from '../providers/tag/tag';
 import { ItemProvider } from '../providers/item/item';
@@ -24,9 +31,8 @@ import { SeqProvider } from '../providers/seq/seq';
 import { SettingProvider } from '../providers/setting/setting';
 import { ExtendsPage } from '../pages/extends/extends';
 import { ExtendProvider } from '../providers/extend/extend';
-import { ExtendDetailPage } from '../pages/extend-detail/extend-detail';
 import { CustomerProvider } from '../providers/customer/customer';
-import { ExtendPipe } from '../pipes/extend/extend';
+import { BakProvider } from '../providers/bak/bak';
 
 @NgModule({
 	declarations: [
@@ -42,6 +48,7 @@ import { ExtendPipe } from '../pipes/extend/extend';
 		AccountsPage,
 		ExtendsPage,
 		ExtendDetailPage,
+		BakPage,
 
 		ExtendPipe,
 	],
@@ -74,12 +81,14 @@ import { ExtendPipe } from '../pipes/extend/extend';
 		AccountsPage,
 		ExtendsPage,
 		ExtendDetailPage,
+		BakPage,
 	],
 	providers: [
 		StatusBar,
 		SplashScreen,
 		{ provide: ErrorHandler, useClass: IonicErrorHandler },
 		{ provide: LOCALE_ID, useValue: 'zh-CN' },
+		File,
 		AccountsProvider,
 		TagProvider,
 		ItemProvider,
@@ -87,6 +96,7 @@ import { ExtendPipe } from '../pipes/extend/extend';
 		SettingProvider,
 		ExtendProvider,
 		CustomerProvider,
+		BakProvider,
 	]
 })
 export class AppModule { }

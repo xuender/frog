@@ -19,6 +19,13 @@ export class TagProvider {
 		private seqProvider: SeqProvider
 	) {
 		this._tags = [];
+		this.reset();
+	}
+
+	reset() {
+		if (this._tags.length > 0) {
+			this._tags.splice(0, this._tags.length);
+		}
 		this.getTags();
 	}
 

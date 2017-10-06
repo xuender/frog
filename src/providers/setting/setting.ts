@@ -11,6 +11,10 @@ export class SettingProvider {
 			displayCost: true,
 			displayProfit: true,
 		};
+		this.reset();
+	}
+
+	reset() {
 		this.storage.ready()
 			.then(_ => {
 				this.storage.get(Setting.KEY)

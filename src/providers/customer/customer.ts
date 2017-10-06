@@ -17,6 +17,13 @@ export class CustomerProvider {
 		this.getCs();
 	}
 
+	reset() {
+		if (this._cs.length > 0) {
+			this._cs.splice(0, this._cs.length);
+			this.getCs();
+		}
+	}
+
 	get cs(): Customer[] {
 		if (this._cs.length == 0) {
 			this.getCs();
